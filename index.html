@@ -64,9 +64,10 @@
             top: 70px;
             right: 20px;
             z-index: 1001;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
+            width: auto;
+            height: 44px;
+            padding: 0 18px;
+            border-radius: 22px;
             border: 1px solid var(--border-color);
             background: var(--bg-card);
             color: var(--text-muted);
@@ -74,9 +75,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-family: 'Space Grotesk', sans-serif;
         }
         .theme-toggle:hover {
             transform: scale(1.1);
@@ -406,6 +408,8 @@
             line-height: 1.8;
             overflow-x: auto;
             margin: 15px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
         }
         .code-block .comment { color: light-dark(#64748b, #8b949e); }
         .code-block .keyword { color: light-dark(#d73a49, #ff7b72); }
@@ -564,21 +568,22 @@
             padding: 10px;
         }
         .algo-header {
-            background: linear-gradient(135deg, #0f172a, #1e293b);
-            color: white;
+            background: linear-gradient(135deg, light-dark(#e0e7ff, #0f172a), light-dark(#c7d2fe, #1e293b));
+            color: light-dark(#1e1b4b, #ffffff);
             padding: 40px;
             text-align: center;
             border-radius: 16px;
             margin-bottom: 30px;
             position: relative;
             overflow: hidden;
+            border: 1px solid var(--border-color);
         }
         .algo-header h3 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 2rem;
             margin-bottom: 10px;
         }
-        .algo-header p { color: #94a3b8; }
+        .algo-header p { color: light-dark(#4338ca, #94a3b8); }
         /* Recursion Section Styles */
         .recursion-rule {
             background: var(--bg-card);
@@ -723,7 +728,7 @@
             .nav-btn { padding: 6px 10px; font-size: 11px; }
             .bridge-diagram { border-radius: 20px; flex-direction: column; }
             .bridge-arrow { transform: rotate(90deg); }
-            .theme-toggle { top: 60px; right: 10px; width: 40px; height: 40px; }
+            .theme-toggle { top: 60px; right: 10px; height: 40px; padding: 0 14px; font-size: 1rem; }
         }
         html { scroll-behavior: smooth; }
         @media print {
@@ -731,12 +736,14 @@
             .section { page-break-inside: avoid; }
         }
     </style>
+<base target="_blank">
 </head>
 <body>
 
     <!-- Theme Toggle -->
     <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
         <i class="fas fa-moon" id="themeIcon"></i>
+        <span id="themeLabel" style="margin-left: 8px; font-size: 0.85rem; font-weight: 600;">Dark</span>
     </button>
 
     <!-- Navigation -->
@@ -1071,7 +1078,7 @@
             </div>
         </div>
         <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Character Sets</h3>
-        <div class="card" style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(15,23,42,0.6)); border-left-color: var(--purple);">
+        <div class="card" style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(139,92,246,0.1), light-dark(rgba(226,232,240,0.6), rgba(15,23,42,0.6))); border-left-color: var(--purple);">
             <div class="card-title"><i class="fa-solid fa-language" style="color: var(--purple);"></i> What is a Character Set?</div>
             <p class="card-text">A standardized "Digital Dictionary" mapping human-readable characters (letters, numbers, emojis) to unique binary values so computers can process, store, and display them correctly.</p>
         </div>
@@ -1179,28 +1186,28 @@
         <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">TCP/IP Model (4 Layers)</h3>
         <div style="display: flex; flex-direction: column; gap: 10px;">
             <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--pink);">
-                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--pink); background: rgba(0,0,0,0.2);">4</div>
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--pink); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">4</div>
                 <div style="padding: 15px 20px;">
                     <h4>Application Layer</h4>
                     <p style="font-size: 0.9rem; color: var(--text-muted);">Software interfaces with network (Browsers using HTTP/HTTPS)</p>
                 </div>
             </div>
             <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--purple);">
-                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--purple); background: rgba(0,0,0,0.2);">3</div>
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--purple); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">3</div>
                 <div style="padding: 15px 20px;">
                     <h4>Transport Layer</h4>
                     <p style="font-size: 0.9rem; color: var(--text-muted);">Manages host-to-host communication and reliability (TCP/UDP)</p>
                 </div>
             </div>
             <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--blue);">
-                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--blue); background: rgba(0,0,0,0.2);">2</div>
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--blue); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">2</div>
                 <div style="padding: 15px 20px;">
                     <h4>Internet Layer</h4>
                     <p style="font-size: 0.9rem; color: var(--text-muted);">Global routing and logical addressing (IP addresses)</p>
                 </div>
             </div>
             <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--emerald);">
-                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--emerald); background: rgba(0,0,0,0.2);">1</div>
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--emerald); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">1</div>
                 <div style="padding: 15px 20px;">
                     <h4>Network Access Layer</h4>
                     <p style="font-size: 0.9rem; color: var(--text-muted);">Physical hardware transmission (MAC, Ethernet, Wi-Fi)</p>
@@ -1233,7 +1240,7 @@
                 <p class="section-subtitle">The Ultimate Intermediary Between User and Hardware</p>
             </div>
         </div>
-        <div class="card" style="margin-bottom: 30px; background: linear-gradient(to right, var(--bg-card), #0f172a); border-left: 5px solid var(--cyan);">
+        <div class="card" style="margin-bottom: 30px; background: linear-gradient(to right, var(--bg-card), light-dark(#e2e8f0, #0f172a)); border-left: 5px solid var(--cyan);">
             <div class="card-title"><i class="fa-solid fa-layer-group" style="color: var(--cyan);"></i> What is an OS?</div>
             <p class="card-text">The most crucial software running on a computer. It manages memory, processes, software, and hardware, providing a platform for everything else to run.</p>
         </div>
@@ -1450,7 +1457,7 @@
                 </div>
             </div>
         </div>
-        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(252,211,77,0.1), rgba(15,23,42,0.6));">
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(252,211,77,0.1), light-dark(rgba(226,232,240,0.6), rgba(15,23,42,0.6)));">
             <div class="card-title"><i class="fa-solid fa-star" style="color: var(--yellow);"></i> Key Takeaways</div>
             <div class="grid-2">
                 <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
@@ -1811,10 +1818,13 @@
         });
 
         function updateIcon(theme) {
+            const label = document.getElementById('themeLabel');
             if (theme === 'dark') {
                 themeIcon.className = 'fas fa-moon';
+                if (label) label.textContent = 'Dark';
             } else {
                 themeIcon.className = 'fas fa-sun';
+                if (label) label.textContent = 'Light';
             }
         }
     </script>
