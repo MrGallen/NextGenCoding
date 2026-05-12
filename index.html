@@ -109,6 +109,7 @@
             cursor: pointer;
             transition: all 0.2s;
             text-decoration: none;
+            display: inline-block;
         }
         .nav-btn:hover {
             background: var(--bg-section);
@@ -172,6 +173,7 @@
             max-width: 1200px;
             margin: 0 auto;
             border-bottom: 1px solid var(--border-color);
+            scroll-margin-top: 80px;
         }
         .section-header {
             display: flex;
@@ -529,7 +531,6 @@
             border-top: 1px solid var(--border-color);
             background: var(--bg-card);
         }
-        /* Algorithms Section Styles */
         .algo-badge {
             display: inline-block;
             padding: 0.25rem 0.75rem;
@@ -584,7 +585,6 @@
             margin-bottom: 10px;
         }
         .algo-header p { color: light-dark(#4338ca, #94a3b8); }
-        /* Recursion Section Styles */
         .recursion-rule {
             background: var(--bg-card);
             padding: 25px;
@@ -736,7 +736,6 @@
             .section { page-break-inside: avoid; }
         }
     </style>
-<base target="_blank">
 </head>
 <body>
 
@@ -792,7 +791,7 @@
         <div class="grid-4">
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-puzzle-piece" style="color: var(--cyan);"></i> Decomposition</div>
-                <p class="card-text">Breaking complex problems into smaller, manageable parts. <br><span class="mono">Ex: Planning a wedding &rarr; venue, food, guests</span></p>
+                <p class="card-text">Breaking complex problems into smaller, manageable parts. <br><span class="mono">Ex: Planning a wedding → venue, food, guests</span></p>
             </div>
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-chart-pie" style="color: var(--cyan);"></i> Pattern Recognition</div>
@@ -945,7 +944,7 @@
                     <i class="fa-solid fa-cubes" style="font-size: 24px; color: var(--amber);"></i>
                 </div>
                 <div class="card-title" style="justify-content: center;">Multiple Cores</div>
-                <p class="card-text">Independent processing units enabling <strong>Parallel Processing</strong> &mdash; handling multiple tasks simultaneously.</p>
+                <p class="card-text">Independent processing units enabling <strong>Parallel Processing</strong> — handling multiple tasks simultaneously.</p>
             </div>
             <div class="card" style="text-align: center;">
                 <div style="width: 60px; height: 60px; background: rgba(245,158,11,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
@@ -970,7 +969,7 @@
             <div class="card" style="border-left-color: var(--cyan);">
                 <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-hdd"></i> Virtual Memory</div>
                 <span class="badge" style="background: rgba(6,182,212,0.1); color: var(--cyan);">Disk Extension</span>
-                <p class="card-text">Portion of hard drive used as temporary RAM when physical RAM is full. <em>Much slower &mdash; can cause "disk thrashing."</em></p>
+                <p class="card-text">Portion of hard drive used as temporary RAM when physical RAM is full. <em>Much slower — can cause "disk thrashing."</em></p>
             </div>
         </div>
         <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The Fetch-Execute Cycle</h3>
@@ -978,12 +977,12 @@
             <div class="card" style="text-align: center;">
                 <i class="fa-solid fa-calculator" style="font-size: 32px; color: var(--purple); margin-bottom: 10px;"></i>
                 <div class="card-title" style="justify-content: center; color: var(--purple);">ALU</div>
-                <p class="card-text">Arithmetic Logic Unit &mdash; the "math brain". Performs calculations (+, -, *, /) and logical comparisons (AND, OR, NOT).</p>
+                <p class="card-text">Arithmetic Logic Unit — the "math brain". Performs calculations (+, -, *, /) and logical comparisons (AND, OR, NOT).</p>
             </div>
             <div class="card" style="text-align: center;">
                 <i class="fa-solid fa-network-wired" style="font-size: 32px; color: var(--purple); margin-bottom: 10px;"></i>
                 <div class="card-title" style="justify-content: center; color: var(--purple);">CU</div>
-                <p class="card-text">Control Unit &mdash; the "traffic cop". Fetches instructions, decodes them, and manages execution flow.</p>
+                <p class="card-text">Control Unit — the "traffic cop". Fetches instructions, decodes them, and manages execution flow.</p>
             </div>
         </div>
         <div class="cycle-container">
@@ -1059,10 +1058,10 @@
                 <p class="card-text">Fundamental language of computers. Maps to transistors (On=1, Off=0).</p>
                 <div class="mono" style="margin-top: 10px;">0, 1</div>
                 <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
-                    <span style="color: var(--emerald);">&#10003;</span> Direct hardware execution<br>
-                    <span style="color: var(--emerald);">&#10003;</span> High reliability<br>
-                    <span style="color: var(--rose);">&#10007;</span> Extremely long strings<br>
-                    <span style="color: var(--rose);">&#10007;</span> Unreadable for humans
+                    <span style="color: var(--emerald);">✓</span> Direct hardware execution<br>
+                    <span style="color: var(--emerald);">✓</span> High reliability<br>
+                    <span style="color: var(--rose);">✗</span> Extremely long strings<br>
+                    <span style="color: var(--rose);">✗</span> Unreadable for humans
                 </div>
             </div>
             <div class="card" style="border-left-color: var(--amber);">
@@ -1070,10 +1069,10 @@
                 <p class="card-text">Bridge between humans and machines. Compresses binary into manageable values.</p>
                 <div class="mono" style="margin-top: 10px;">0-9, A, B, C, D, E, F</div>
                 <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
-                    <span style="color: var(--emerald);">&#10003;</span> Data compression (1 Hex = 4 Bits)<br>
-                    <span style="color: var(--emerald);">&#10003;</span> Ideal for colors & MAC addresses<br>
-                    <span style="color: var(--rose);">&#10007;</span> CPU cannot run directly<br>
-                    <span style="color: var(--rose);">&#10007;</span> Must compile to binary
+                    <span style="color: var(--emerald);">✓</span> Data compression (1 Hex = 4 Bits)<br>
+                    <span style="color: var(--emerald);">✓</span> Ideal for colors & MAC addresses<br>
+                    <span style="color: var(--rose);">✗</span> CPU cannot run directly<br>
+                    <span style="color: var(--rose);">✗</span> Must compile to binary
                 </div>
             </div>
         </div>
@@ -1374,7 +1373,7 @@
             <div class="card">
                 <div class="card-title"><i class="fa-solid fa-list" style="color: var(--yellow);"></i> How It Works</div>
                 <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                    <li><span class="mono">fruit</span> is the <strong>loop variable</strong> &mdash; it holds the current item</li>
+                    <li><span class="mono">fruit</span> is the <strong>loop variable</strong> — it holds the current item</li>
                     <li><span class="mono">fruits</span> is the <strong>list</strong> being iterated</li>
                     <li>The loop runs <strong>once per item</strong> in the list</li>
                     <li>Indentation (4 spaces) defines the loop body</li>
@@ -1461,14 +1460,14 @@
             <div class="card-title"><i class="fa-solid fa-star" style="color: var(--yellow);"></i> Key Takeaways</div>
             <div class="grid-2">
                 <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                    <li><span class="mono">for item in list:</span> &mdash; loop through list items</li>
-                    <li><span class="mono">for i in range(n):</span> &mdash; loop n times (0 to n-1)</li>
-                    <li><span class="mono">for i in range(start, stop):</span> &mdash; custom start/stop</li>
+                    <li><span class="mono">for item in list:</span> — loop through list items</li>
+                    <li><span class="mono">for i in range(n):</span> — loop n times (0 to n-1)</li>
+                    <li><span class="mono">for i in range(start, stop):</span> — custom start/stop</li>
                 </ul>
                 <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
-                    <li><span class="mono">for i in range(start, stop, step):</span> &mdash; with step size</li>
-                    <li><span class="mono">break</span> &mdash; exit loop early</li>
-                    <li><span class="mono">continue</span> &mdash; skip to next iteration</li>
+                    <li><span class="mono">for i in range(start, stop, step):</span> — with step size</li>
+                    <li><span class="mono">break</span> — exit loop early</li>
+                    <li><span class="mono">continue</span> — skip to next iteration</li>
                 </ul>
             </div>
         </div>
@@ -1825,6 +1824,38 @@
             } else {
                 themeIcon.className = 'fas fa-sun';
                 if (label) label.textContent = 'Light';
+            }
+        }
+        
+        // Smooth scroll prevention for hash links to ensure proper default behavior
+        // (The scroll-margin-top CSS and scroll-behavior already handle this well)
+        document.querySelectorAll('.nav-btn').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Update URL without causing jump
+                    history.pushState(null, null, `#${targetId}`);
+                }
+            });
+        });
+        
+        // Initial check for hash on load
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                setTimeout(() => {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
             }
         }
     </script>
