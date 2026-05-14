@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Revision Notes from the Session - Complete Computer Science Reference</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            color-scheme: light dark;
+            --light-bg: #f8fafc;
+            --light-bg-card: #ffffff;
+            --light-bg-section: #f1f5f9;
+            --light-border: #e2e8f0;
+            --light-text-main: #0f172a;
+            --light-text-muted: #64748b;
+            --light-hero-bg: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(139,92,246,0.08));
+            --light-card-hover: rgba(0,0,0,0.03);
+            --light-code-bg: #f1f5f9;
+            --light-nav-bg: rgba(255,255,255,0.95);
+            --dark-bg: #020617;
+            --dark-bg-card: #0f172a;
+            --dark-bg-section: #111827;
+            --dark-border: #1e293b;
+            --dark-text-main: #f8fafc;
+            --dark-text-muted: #94a3b8;
+            --dark-hero-bg: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            --dark-card-hover: rgba(255,255,255,0.05);
+            --dark-code-bg: #0d1117;
+            --dark-nav-bg: rgba(2,6,23,0.95);
+            --cyan: #06b6d4;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --amber: #f59e0b;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --orange: #fb923c;
+            --yellow: #fcd34d;
+            --bg: light-dark(var(--light-bg), var(--dark-bg));
+            --bg-card: light-dark(var(--light-bg-card), var(--dark-bg-card));
+            --bg-section: light-dark(var(--light-bg-section), var(--dark-bg-section));
+            --border-color: light-dark(var(--light-border), var(--dark-border));
+            --text-main: light-dark(var(--light-text-main), var(--dark-text-main));
+            --text-muted: light-dark(var(--light-text-muted), var(--dark-text-muted));
+            --hero-bg: light-dark(var(--light-hero-bg), var(--dark-hero-bg));
+            --card-hover-bg: light-dark(var(--light-card-hover), var(--dark-card-hover));
+            --code-bg: light-dark(var(--light-code-bg), var(--dark-code-bg));
+            --nav-bg: light-dark(var(--light-nav-bg), var(--dark-nav-bg));
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 1001;
+            width: auto;
+            height: 44px;
+            padding: 0 18px;
+            border-radius: 22px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+        .nav-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            background: var(--bg-section);
+            color: var(--text-main);
+            border-color: var(--cyan);
+        }
+        .hero {
+            text-align: center;
+            padding: 120px 40px 80px;
+            background: var(--hero-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 50%, rgba(6,182,212,0.08), transparent 50%),
+                              radial-gradient(circle at 80% 50%, rgba(139,92,246,0.08), transparent 50%);
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            position: relative;
+        }
+        .stat-item { text-align: center; }
+        .stat-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section {
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border-color);
+            scroll-margin-top: 80px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .section-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+        }
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.2s, border-color 0.2s, background-color 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: light-dark(rgba(0,0,0,0.15), rgba(255,255,255,0.1));
+        }
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .theme-cyan .section-icon { background: rgba(6,182,212,0.15); color: var(--cyan); }
+        .theme-cyan .section-title { color: var(--cyan); }
+        .theme-cyan .card { border-left: 3px solid var(--cyan); }
+        .theme-blue .section-icon { background: rgba(59,130,246,0.15); color: var(--blue); }
+        .theme-blue .section-title { color: var(--blue); }
+        .theme-blue .card { border-left: 3px solid var(--blue); }
+        .theme-purple .section-icon { background: rgba(139,92,246,0.15); color: var(--purple); }
+        .theme-purple .section-title { color: var(--purple); }
+        .theme-purple .card { border-left: 3px solid var(--purple); }
+        .theme-amber .section-icon { background: rgba(245,158,11,0.15); color: var(--amber); }
+        .theme-amber .section-title { color: var(--amber); }
+        .theme-amber .card { border-left: 3px solid var(--amber); }
+        .theme-emerald .section-icon { background: rgba(16,185,129,0.15); color: var(--emerald); }
+        .theme-emerald .section-title { color: var(--emerald); }
+        .theme-emerald .card { border-left: 3px solid var(--emerald); }
+        .theme-rose .section-icon { background: rgba(244,63,94,0.15); color: var(--rose); }
+        .theme-rose .section-title { color: var(--rose); }
+        .theme-rose .card { border-left: 3px solid var(--rose); }
+        .theme-orange .section-icon { background: rgba(251,146,60,0.15); color: var(--orange); }
+        .theme-orange .section-title { color: var(--orange); }
+        .theme-orange .card { border-left: 3px solid var(--orange); }
+        .theme-yellow .section-icon { background: rgba(252,211,77,0.15); color: var(--yellow); }
+        .theme-yellow .section-title { color: var(--yellow); }
+        .theme-yellow .card { border-left: 3px solid var(--yellow); }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--cyan), var(--blue), var(--purple));
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 3px solid var(--cyan);
+        }
+        .timeline-date {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--cyan);
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+        }
+        .protocol-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+        }
+        .protocol-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .comp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+        .comp-stat {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .comp-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .cycle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .cycle-step {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 3px solid var(--purple);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .cycle-step h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 4px;
+        }
+        .cycle-step p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .cycle-arrow {
+            font-size: 24px;
+            color: var(--purple);
+        }
+        .reg-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .reg-table th, .reg-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .reg-table th {
+            color: var(--rose);
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            background: rgba(244,63,94,0.05);
+        }
+        .reg-table tr:hover td {
+            background: var(--card-hover-bg);
+        }
+        .mono {
+            font-family: 'Space Mono', monospace;
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .code-block .comment { color: light-dark(#64748b, #8b949e); }
+        .code-block .keyword { color: light-dark(#d73a49, #ff7b72); }
+        .code-block .string { color: light-dark(#032f62, #a5d6ff); }
+        .code-block .function { color: light-dark(#6f42c1, #d2a8ff); }
+        .code-block .number { color: light-dark(#005cc5, #79c0ff); }
+        .code-block .print { color: light-dark(#e36209, #f0883e); }
+        .code-block .output { color: light-dark(#22863a, #7ee787); }
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .pros { border-top: 4px solid var(--emerald); }
+        .cons { border-top: 4px solid var(--rose); }
+        .list-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 12px;
+            background: var(--card-hover-bg);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .list-item i { margin-top: 3px; }
+        .bridge-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-card);
+            padding: 20px 40px;
+            border-radius: 100px;
+            margin: 30px 0;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .bridge-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .bridge-item i { font-size: 1.5rem; }
+        .bridge-arrow { color: var(--cyan); font-size: 1.5rem; }
+        .os-core { color: var(--cyan); font-size: 1.2rem; }
+        .role-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 4px solid;
+            transition: transform 0.2s;
+        }
+        .role-card:hover {
+            transform: translateY(-5px);
+        }
+        .role-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+        }
+        .role-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; margin-bottom: 10px; }
+        .role-card p { font-size: 0.95rem; color: var(--text-muted); }
+        .r-cyan { border-top-color: var(--cyan); }
+        .r-cyan .role-icon { background: rgba(6,182,212,0.1); color: var(--cyan); }
+        .r-purple { border-top-color: var(--purple); }
+        .r-purple .role-icon { background: rgba(139,92,246,0.1); color: var(--purple); }
+        .r-emerald { border-top-color: var(--emerald); }
+        .r-emerald .role-icon { background: rgba(16,185,129,0.1); color: var(--emerald); }
+        .r-orange { border-top-color: var(--orange); }
+        .r-orange .role-icon { background: rgba(251,146,60,0.1); color: var(--orange); }
+        .r-pink { border-top-color: var(--pink); }
+        .r-pink .role-icon { background: rgba(236,72,153,0.1); color: var(--pink); }
+        .r-yellow { border-top-color: var(--yellow); }
+        .r-yellow .role-icon { background: rgba(252,211,77,0.1); color: var(--yellow); }
+        .type-row {
+            display: flex;
+            align-items: center;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid;
+            margin-bottom: 15px;
+        }
+        .type-icon {
+            font-size: 2rem;
+            width: 60px;
+            text-align: center;
+            margin-right: 20px;
+        }
+        .type-info h3 { margin-bottom: 5px; font-size: 1.3rem; }
+        .type-info p { color: var(--text-muted); font-size: 0.9rem; }
+        .type-examples {
+            font-weight: 600;
+            font-size: 0.85rem;
+            background: var(--card-hover-bg);
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 8px;
+        }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+        .algo-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+        }
+        .algo-green { background: light-dark(#dcfce7, rgba(16,185,129,0.15)); color: light-dark(#166534, var(--emerald)); }
+        .algo-yellow { background: light-dark(#fef08a, rgba(245,158,11,0.15)); color: light-dark(#854d0e, var(--amber)); }
+        .algo-orange { background: light-dark(#fed7aa, rgba(251,146,60,0.15)); color: light-dark(#9a3412, var(--orange)); }
+        .algo-red { background: light-dark(#fee2e2, rgba(244,63,94,0.15)); color: light-dark(#991b1b, var(--rose)); }
+        .algo-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .algo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+        }
+        .algo-scale {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        @media (min-width: 768px) {
+            .algo-scale { flex-direction: row; justify-content: space-between; }
+        }
+        .algo-scale-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+        }
+        .algo-header {
+            background: linear-gradient(135deg, light-dark(#e0e7ff, #0f172a), light-dark(#c7d2fe, #1e293b));
+            color: light-dark(#1e1b4b, #ffffff);
+            padding: 40px;
+            text-align: center;
+            border-radius: 16px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .algo-header h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        .algo-header p { color: light-dark(#4338ca, #94a3b8); }
+        .recursion-rule {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border-left: 6px solid transparent;
+            display: flex;
+            gap: 20px;
+        }
+        .recursion-rule.base { border-left-color: var(--rose); }
+        .recursion-rule.recursive { border-left-color: var(--emerald); }
+        .recursion-icon {
+            font-size: 2rem;
+            width: 50px;
+            text-align: center;
+        }
+        .recursion-rule.base .recursion-icon { color: var(--rose); }
+        .recursion-rule.recursive .recursion-icon { color: var(--emerald); }
+        .stack-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 30px;
+            background: var(--bg);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        .stack-frame {
+            background: var(--purple);
+            color: white;
+            padding: 10px 40px;
+            border-radius: 8px;
+            font-family: 'Space Mono', monospace;
+            width: 80%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .stack-frame:nth-child(1) { width: 60%; opacity: 0.7; }
+        .stack-frame:nth-child(2) { width: 70%; opacity: 0.85; }
+        .stack-frame:nth-child(3) { width: 80%; background: var(--emerald); font-weight: bold; }
+        .stack-arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 90%;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .pros-cons-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .pc-card {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+        }
+        .pc-card h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .pc-card.pros h3 { color: var(--emerald); }
+        .pc-card.cons h3 { color: var(--rose); }
+        .pc-card ul { list-style: none; }
+        .pc-card li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .pc-card.pros li::before {
+            content: '\f00c';
+            font-family: 'FontAwesome';
+            position: absolute;
+            left: 0;
+            color: var(--emerald);
+        }
+        .pc-card.cons li::before {
+            content: '\f00d';
+            font-family: 'FontAwesome';
+            position: absolute;
+            left: 0;
+            color: var(--rose);
+        }
+        .code-container {
+            background: var(--code-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 20px;
+            border: 1px solid var(--border-color);
+        }
+        .code-header {
+            background: light-dark(#e2e8f0, #000);
+            padding: 10px 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot.red { background: #ff5f56; }
+        .dot.yellow { background: #ffbd2e; }
+        .dot.green { background: #27c93f; }
+        .code-title {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-family: 'Space Mono', monospace;
+            margin-left: 10px;
+        }
+        pre {
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+        .code-keyword { color: light-dark(#d73a49, #c678dd); }
+        .code-function { color: light-dark(#6f42c1, #61afef); }
+        .code-number { color: light-dark(#005cc5, #d19a66); }
+        .code-comment { color: light-dark(#6a737d, #5c6370); font-style: italic; }
+        .code-operator { color: light-dark(#d73a49, #56b6c2); }
+
+        @media (max-width: 768px) {
+            .section { padding: 40px 20px; }
+            .hero-stats { gap: 20px; }
+            .comparison-grid, .pros-cons, .pros-cons-grid { grid-template-columns: 1fr; }
+            .cycle-container { flex-direction: column; }
+            .cycle-arrow { transform: rotate(90deg); }
+            .nav-bar { padding: 8px; gap: 4px; }
+            .nav-btn { padding: 6px 10px; font-size: 11px; }
+            .bridge-diagram { border-radius: 20px; flex-direction: column; }
+            .bridge-arrow { transform: rotate(90deg); }
+            .theme-toggle { top: 60px; right: 10px; height: 40px; padding: 0 14px; font-size: 1rem; }
+        }
+        html { scroll-behavior: smooth; }
+        @media print {
+            .nav-bar, .theme-toggle { display: none; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+        <span id="themeLabel" style="margin-left: 8px; font-size: 0.85rem; font-weight: 600;">Dark</span>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="#thinking" class="nav-btn">💡 Thinking</a>
+        <a href="#ai" class="nav-btn">🤖 AI</a>
+        <a href="#architecture" class="nav-btn">🖥️ Architecture</a>
+        <a href="#data" class="nav-btn">📊 Data</a>
+        <a href="#networking" class="nav-btn">🌐 Networking</a>
+        <a href="#os" class="nav-btn">⚙️ OS</a>
+        <a href="#python" class="nav-btn">🐍 Python</a>
+        <a href="#algorithms" class="nav-btn">⚡ Algorithms</a>
+        <a href="#recursion" class="nav-btn">🔄 Recursion</a>
+        <a href="#history" class="nav-btn">📜 History</a>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <h1>Revision Notes from the Session</h1>
+        <p>Complete Computer Science Reference Guide — All topics, one page.</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-num">10</div>
+                <div class="stat-label">Core Topics</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">80+</div>
+                <div class="stat-label">Key Concepts</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">1</div>
+                <div class="stat-label">Page</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: Computational Thinking -->
+    <section id="thinking" class="section theme-cyan">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-brain"></i></div>
+            <div>
+                <h2 class="section-title">Computational Thinking</h2>
+                <p class="section-subtitle">Your blueprint for solving complex problems</p>
+            </div>
+        </div>
+        <div class="grid-4">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-puzzle-piece" style="color: var(--cyan);"></i> Decomposition</div>
+                <p class="card-text">Breaking complex problems into smaller, manageable parts. <br><span class="mono">Ex: Planning a wedding → venue, food, guests</span></p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-chart-pie" style="color: var(--cyan);"></i> Pattern Recognition</div>
+                <p class="card-text">Identifying similarities and trends in data. <br><span class="mono">Ex: Weather prediction from historical data</span></p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-filter" style="color: var(--cyan);"></i> Abstraction</div>
+                <p class="card-text">Filtering irrelevant details to focus on essentials. <br><span class="mono">Ex: Subway map ignores real geography</span></p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-code-branch" style="color: var(--cyan);"></i> Algorithmic Thinking</div>
+                <p class="card-text">Developing step-by-step instructions. <br><span class="mono">Ex: Following a recipe to bake a cake</span></p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Debugging 101</h3>
+        <div class="grid-3">
+            <div class="card" style="border-left-color: var(--rose);">
+                <div class="card-title" style="color: var(--rose);"><i class="fa-solid fa-spell-check"></i> Syntax Error</div>
+                <p class="card-text">Grammar/typo in code. The program <strong>will not run</strong> at all.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--amber);">
+                <div class="card-title" style="color: var(--amber);"><i class="fa-solid fa-bolt-lightning"></i> Runtime Error</div>
+                <p class="card-text">Error during execution causing program to <strong>crash</strong> (e.g., divide by zero).</p>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald);">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-bug"></i> Logical Error</div>
+                <p class="card-text">Program runs but produces <strong>wrong output</strong>. Hardest to find.</p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Advanced Concepts</h3>
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-key" style="color: var(--cyan);"></i> General Solutions</div>
+                <p class="card-text">Algorithms solving a <em>class</em> of problems, not just one instance. Highly reusable.</p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-gauge-high" style="color: var(--cyan);"></i> Heuristics</div>
+                <p class="card-text">"Rule of thumb" trading exact optimality for speed. Used when exactness is too slow.</p>
+            </div>
+            <div class="card" style="background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.1));">
+                <div class="card-title"><i class="fa-solid fa-route" style="color: var(--purple);"></i> TSP Problem</div>
+                <p class="card-text">Find shortest route visiting all cities. Exact solution takes years; heuristics find "good enough" routes instantly.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: AI & Ethics -->
+    <section id="ai" class="section theme-purple">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div>
+                <h2 class="section-title">AI & Ethics</h2>
+                <p class="section-subtitle">Decoding Intelligence, Learning & Moral Responsibility</p>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-robot" style="color: var(--purple);"></i> Artificial Intelligence</div>
+                <p class="card-text">Simulation of human cognitive processes by computer systems. Encompasses learning, reasoning, and self-correction.</p>
+                <div style="margin-top: 12px; display: flex; gap: 8px;">
+                    <span class="badge" style="background: rgba(139,92,246,0.1); color: var(--purple);">Reasoning</span>
+                    <span class="badge" style="background: rgba(139,92,246,0.1); color: var(--purple);">Adaptation</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-network-wired" style="color: var(--purple);"></i> Machine Learning</div>
+                <p class="card-text">Subset of AI where systems learn from data to identify patterns and make decisions with minimal human intervention.</p>
+                <div style="margin-top: 12px; display: flex; gap: 8px;">
+                    <span class="badge" style="background: rgba(139,92,246,0.1); color: var(--purple);">Data-Driven</span>
+                    <span class="badge" style="background: rgba(139,92,246,0.1); color: var(--purple);">Pattern Recognition</span>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(236,72,153,0.1), rgba(139,92,246,0.1));">
+            <div class="card-title"><i class="fa-brands fa-youtube" style="color: var(--rose);"></i> Real-World Example: YouTube Algorithm</div>
+            <p class="card-text">Uses ML to track watch history, likes, and skips. Groups users with similar behavior to predict and recommend videos, constantly adapting in real-time.</p>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The Intelligence Spectrum</h3>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-compress" style="color: var(--pink);"></i> Narrow AI (ANI)</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 2;">
+                    <li>Specialized in one specific task</li>
+                    <li>Only type of AI existing today</li>
+                    <li>Examples: Siri, ChatGPT, self-driving cars</li>
+                    <li>Lacks consciousness and general reasoning</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-expand" style="color: var(--blue);"></i> General AI (AGI)</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 2;">
+                    <li>Human-level cognitive abilities</li>
+                    <li>Can learn and apply to any domain</li>
+                    <li>Purely theoretical at this stage</li>
+                    <li>The "Holy Grail" of AI research</li>
+                </ul>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Impact Analysis</h3>
+        <div class="pros-cons">
+            <div class="card pros">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-check-circle"></i> Advantages</div>
+                <div class="list-item"><i class="fa-solid fa-clock" style="color: var(--emerald);"></i><div><strong>24/7 Availability</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Never sleeps; continuous operation</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-bolt" style="color: var(--emerald);"></i><div><strong>High Speed Analysis</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Processes massive data instantly</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-copy" style="color: var(--emerald);"></i><div><strong>Automation</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Handles repetitive tasks flawlessly</span></div></div>
+            </div>
+            <div class="card cons">
+                <div class="card-title" style="color: var(--rose);"><i class="fa-solid fa-times-circle"></i> Disadvantages</div>
+                <div class="list-item"><i class="fa-solid fa-sack-dollar" style="color: var(--rose);"></i><div><strong>High Costs</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Expensive to develop and maintain</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-users-slash" style="color: var(--rose);"></i><div><strong>Job Displacement</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Automation can lead to unemployment</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-palette" style="color: var(--rose);"></i><div><strong>No True Creativity</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Cannot emulate human emotion or out-of-box thought</span></div></div>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px; border-left-color: var(--amber);">
+            <div class="card-title"><i class="fa-solid fa-scale-unbalanced" style="color: var(--amber);"></i> The Ethics of AI</div>
+            <p class="card-text" style="margin-bottom: 16px;">AI Ethics governs the moral standards of AI creation. Since AI learns from human data, it often inherits human flaws.</p>
+            <div class="grid-2">
+                <div style="padding: 16px; background: rgba(245,158,11,0.05); border-radius: 8px;">
+                    <strong style="color: var(--amber);"><i class="fa-solid fa-user-shield"></i> Algorithmic Bias</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">An AI hiring tool trained on male-dominated resumes taught itself to prefer male candidates, automatically downgrading female applicants.</p>
+                </div>
+                <div style="padding: 16px; background: rgba(245,158,11,0.05); border-radius: 8px;">
+                    <strong style="color: var(--amber);"><i class="fa-solid fa-car-burst"></i> Autonomous Morality</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">In an unavoidable crash, should a self-driving car prioritize passengers or pedestrians? Who codes that moral decision?</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: Computer Architecture -->
+    <section id="architecture" class="section theme-blue">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div>
+                <h2 class="section-title">Computer Architecture</h2>
+                <p class="section-subtitle">The Core of Modern Computing Systems</p>
+            </div>
+        </div>
+        <h3 style="margin-bottom: 20px; font-family: 'Space Grotesk'; color: var(--text-main);">CPU Performance Factors</h3>
+        <div class="grid-3">
+            <div class="card" style="text-align: center;">
+                <div style="width: 60px; height: 60px; background: rgba(245,158,11,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fa-solid fa-tachometer-alt" style="font-size: 24px; color: var(--amber);"></i>
+                </div>
+                <div class="card-title" style="justify-content: center;">Clock Speed</div>
+                <p class="card-text">Measured in <strong>GHz</strong>. Dictates billions of instruction cycles per second. Faster clock = faster processing.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <div style="width: 60px; height: 60px; background: rgba(245,158,11,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fa-solid fa-cubes" style="font-size: 24px; color: var(--amber);"></i>
+                </div>
+                <div class="card-title" style="justify-content: center;">Multiple Cores</div>
+                <p class="card-text">Independent processing units enabling <strong>Parallel Processing</strong> — handling multiple tasks simultaneously.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <div style="width: 60px; height: 60px; background: rgba(245,158,11,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fa-solid fa-bolt" style="font-size: 24px; color: var(--amber);"></i>
+                </div>
+                <div class="card-title" style="justify-content: center;">Cache Size</div>
+                <p class="card-text">Ultra-fast memory on the CPU. Larger cache reduces time spent waiting to fetch data from slower main RAM.</p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Memory System</h3>
+        <div class="grid-3">
+            <div class="card" style="border-left-color: var(--emerald);">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-memory"></i> RAM</div>
+                <span class="badge" style="background: rgba(16,185,129,0.1); color: var(--emerald);">Volatile</span>
+                <p class="card-text">Fast, temporary storage for OS, running programs, and current data. <strong>Lost when power turns off.</strong></p>
+            </div>
+            <div class="card" style="border-left-color: var(--blue);">
+                <div class="card-title" style="color: var(--blue);"><i class="fa-solid fa-save"></i> ROM</div>
+                <span class="badge" style="background: rgba(59,130,246,0.1); color: var(--blue);">Non-Volatile</span>
+                <p class="card-text">Permanent storage retaining data without power. Contains essential boot-up instructions (BIOS).</p>
+            </div>
+            <div class="card" style="border-left-color: var(--cyan);">
+                <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-hdd"></i> Virtual Memory</div>
+                <span class="badge" style="background: rgba(6,182,212,0.1); color: var(--cyan);">Disk Extension</span>
+                <p class="card-text">Portion of hard drive used as temporary RAM when physical RAM is full. <em>Much slower — can cause "disk thrashing."</em></p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The Fetch-Execute Cycle</h3>
+        <div class="grid-2">
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-calculator" style="font-size: 32px; color: var(--purple); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center; color: var(--purple);">ALU</div>
+                <p class="card-text">Arithmetic Logic Unit — the "math brain". Performs calculations (+, -, *, /) and logical comparisons (AND, OR, NOT).</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-network-wired" style="font-size: 32px; color: var(--purple); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center; color: var(--purple);">CU</div>
+                <p class="card-text">Control Unit — the "traffic cop". Fetches instructions, decodes them, and manages execution flow.</p>
+            </div>
+        </div>
+        <div class="cycle-container">
+            <div class="cycle-step">
+                <h4 style="color: var(--purple);">FETCH</h4>
+                <p>Get instruction from RAM</p>
+            </div>
+            <i class="fa-solid fa-arrow-right cycle-arrow"></i>
+            <div class="cycle-step">
+                <h4 style="color: var(--purple);">DECODE</h4>
+                <p>CU interprets instruction</p>
+            </div>
+            <i class="fa-solid fa-arrow-right cycle-arrow"></i>
+            <div class="cycle-step">
+                <h4 style="color: var(--purple);">EXECUTE</h4>
+                <p>ALU performs action</p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Special Purpose Registers</h3>
+        <div style="overflow-x: auto;">
+            <table class="reg-table">
+                <tr>
+                    <th>Register</th>
+                    <th>Full Name</th>
+                    <th>Function</th>
+                </tr>
+                <tr>
+                    <td><span class="mono" style="color: var(--rose);">PC</span></td>
+                    <td>Program Counter</td>
+                    <td>Holds memory address of the <strong>next</strong> instruction to fetch. Auto-increments.</td>
+                </tr>
+                <tr>
+                    <td><span class="mono" style="color: var(--rose);">MAR</span></td>
+                    <td>Memory Address Register</td>
+                    <td>Receives address from PC. Holds address currently being read from or written to.</td>
+                </tr>
+                <tr>
+                    <td><span class="mono" style="color: var(--rose);">MDR</span></td>
+                    <td>Memory Data Register</td>
+                    <td>Buffer holding actual data/instruction fetched from or waiting to be written to memory.</td>
+                </tr>
+                <tr>
+                    <td><span class="mono" style="color: var(--rose);">CIR</span></td>
+                    <td>Current Instruction Register</td>
+                    <td>Copies instruction from MDR. Holds instruction currently being decoded and executed.</td>
+                </tr>
+                <tr>
+                    <td><span class="mono" style="color: var(--rose);">ACC</span></td>
+                    <td>Accumulator</td>
+                    <td>Located in ALU. Temporarily stores results of mathematical and logical operations.</td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Data & Number Systems -->
+    <section id="data" class="section theme-amber">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-database"></i></div>
+            <div>
+                <h2 class="section-title">Data Demystified</h2>
+                <p class="section-subtitle">Number Systems & Character Sets</p>
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="card" style="border-left-color: var(--blue);">
+                <div class="card-title"><span style="background: rgba(59,130,246,0.15); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">10</span> Denary (Base-10)</div>
+                <p class="card-text">Standard human system with digits 0-9. The foundation we use daily.</p>
+                <div class="mono" style="margin-top: 10px;">0, 1, 2, 3, 4, 5, 6, 7, 8, 9</div>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald);">
+                <div class="card-title"><span style="background: rgba(16,185,129,0.15); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">2</span> Binary (Base-2)</div>
+                <p class="card-text">Fundamental language of computers. Maps to transistors (On=1, Off=0).</p>
+                <div class="mono" style="margin-top: 10px;">0, 1</div>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
+                    <span style="color: var(--emerald);">✓</span> Direct hardware execution<br>
+                    <span style="color: var(--emerald);">✓</span> High reliability<br>
+                    <span style="color: var(--rose);">✗</span> Extremely long strings<br>
+                    <span style="color: var(--rose);">✗</span> Unreadable for humans
+                </div>
+            </div>
+            <div class="card" style="border-left-color: var(--amber);">
+                <div class="card-title"><span style="background: rgba(245,158,11,0.15); width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px;">16</span> Hexadecimal (Base-16)</div>
+                <p class="card-text">Bridge between humans and machines. Compresses binary into manageable values.</p>
+                <div class="mono" style="margin-top: 10px;">0-9, A, B, C, D, E, F</div>
+                <div style="margin-top: 10px; font-size: 0.8rem; color: var(--text-muted);">
+                    <span style="color: var(--emerald);">✓</span> Data compression (1 Hex = 4 Bits)<br>
+                    <span style="color: var(--emerald);">✓</span> Ideal for colors & MAC addresses<br>
+                    <span style="color: var(--rose);">✗</span> CPU cannot run directly<br>
+                    <span style="color: var(--rose);">✗</span> Must compile to binary
+                </div>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Character Sets</h3>
+        <div class="card" style="margin-bottom: 20px; background: linear-gradient(135deg, rgba(139,92,246,0.1), light-dark(rgba(226,232,240,0.6), rgba(15,23,42,0.6))); border-left-color: var(--purple);">
+            <div class="card-title"><i class="fa-solid fa-language" style="color: var(--purple);"></i> What is a Character Set?</div>
+            <p class="card-text">A standardized "Digital Dictionary" mapping human-readable characters (letters, numbers, emojis) to unique binary values so computers can process, store, and display them correctly.</p>
+        </div>
+        <div class="comparison-grid">
+            <div class="comp-card">
+                <h4 style="color: var(--text-muted); margin-bottom: 15px;"><i class="fa-solid fa-keyboard"></i> ASCII Standard</h4>
+                <div class="comp-stat" style="color: var(--cyan);">7-bit</div>
+                <div class="comp-label">Encoding</div>
+                <div class="comp-stat" style="color: var(--cyan);">128</div>
+                <div class="comp-label">Characters</div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">Perfect for basic English letters, numbers, and standard punctuation. Cannot support international languages or modern symbols.</p>
+            </div>
+            <div class="comp-card">
+                <h4 style="color: var(--text-muted); margin-bottom: 15px;"><i class="fa-solid fa-globe"></i> Unicode Standard</h4>
+                <div class="comp-stat" style="color: var(--purple);">16-32 bit</div>
+                <div class="comp-label">Encoding</div>
+                <div class="comp-stat" style="color: var(--purple);">Millions</div>
+                <div class="comp-label">Characters</div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">Universal standard unifying all global languages, historical scripts, and emojis into one massive, backwards-compatible dictionary.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: Networking -->
+    <section id="networking" class="section theme-emerald">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-globe"></i></div>
+            <div>
+                <h2 class="section-title">Networking 101</h2>
+                <p class="section-subtitle">The Blueprint of the Digital World</p>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-network-wired" style="font-size: 40px; color: var(--emerald); margin-bottom: 15px;"></i>
+                <div class="card-title" style="justify-content: center;">The Internet</div>
+                <p class="card-text">The physical infrastructure. A massive global network of cables, routers, and hardware connecting computers.</p>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--emerald);"><i class="fa-solid fa-lightbulb"></i> Analogy: The road system</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-window-maximize" style="font-size: 40px; color: var(--purple); margin-bottom: 15px;"></i>
+                <div class="card-title" style="justify-content: center;">The WWW</div>
+                <p class="card-text">The content. A collection of linked digital pages and documents accessed <em>via</em> the Internet.</p>
+                <p style="margin-top: 10px; font-size: 0.85rem; color: var(--purple);"><i class="fa-solid fa-lightbulb"></i> Analogy: Shops on the roads</p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Key Protocols</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Standardized rules ensuring devices "speak the same language."</p>
+        <div class="protocol-item" style="border-left-color: var(--blue);">
+            <div class="protocol-icon" style="background: rgba(59,130,246,0.15); color: var(--blue);"><i class="fa-brands fa-html5"></i></div>
+            <div class="protocol-content">
+                <h4 style="margin-bottom: 4px;">HTTP</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Fetches web pages. Used for browsing unencrypted sites.</p>
+            </div>
+        </div>
+        <div class="protocol-item" style="border-left-color: var(--emerald);">
+            <div class="protocol-icon" style="background: rgba(16,185,129,0.15); color: var(--emerald);"><i class="fa-solid fa-lock"></i></div>
+            <div class="protocol-content">
+                <h4 style="margin-bottom: 4px;">HTTPS (Secure)</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Encrypted browsing. Protects passwords and banking data.</p>
+            </div>
+        </div>
+        <div class="protocol-item" style="border-left-color: var(--orange);">
+            <div class="protocol-icon" style="background: rgba(251,146,60,0.15); color: var(--orange);"><i class="fa-solid fa-box-check"></i></div>
+            <div class="protocol-content">
+                <h4 style="margin-bottom: 4px;">TCP</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Ensures data arrives reliably and in correct order.</p>
+            </div>
+        </div>
+        <div class="protocol-item" style="border-left-color: var(--pink);">
+            <div class="protocol-icon" style="background: rgba(236,72,153,0.15); color: var(--pink);"><i class="fa-solid fa-map-location-dot"></i></div>
+            <div class="protocol-content">
+                <h4 style="margin-bottom: 4px;">IP</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Handles addressing and routing packets to correct destination.</p>
+            </div>
+        </div>
+        <div class="protocol-item" style="border-left-color: var(--purple);">
+            <div class="protocol-icon" style="background: rgba(139,92,246,0.15); color: var(--purple);"><i class="fa-solid fa-headset"></i></div>
+            <div class="protocol-content">
+                <h4 style="margin-bottom: 4px;">VoIP</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Converts voice to digital signals for calls (Zoom, Skype).</p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Client-Server Model</h3>
+        <div class="card" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 30px; padding: 40px;">
+            <div style="text-align: center; width: 120px;">
+                <i class="fa-solid fa-laptop-code" style="font-size: 50px; color: var(--blue); margin-bottom: 10px;"></i>
+                <div style="font-weight: 600;">Client</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">Requests Data</div>
+            </div>
+            <div style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; gap: 15px; min-width: 200px;">
+                <div style="display: flex; align-items: center; gap: 10px; color: var(--emerald); font-weight: 600;">
+                    <span>Request</span> <i class="fa-solid fa-arrow-right"></i>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; color: var(--blue); font-weight: 600;">
+                    <i class="fa-solid fa-arrow-left"></i> <span>Response</span>
+                </div>
+            </div>
+            <div style="text-align: center; width: 120px;">
+                <i class="fa-solid fa-database" style="font-size: 50px; color: var(--orange); margin-bottom: 10px;"></i>
+                <div style="font-weight: 600;">Server</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">Fulfills Request</div>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">TCP/IP Model (4 Layers)</h3>
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--pink);">
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--pink); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">4</div>
+                <div style="padding: 15px 20px;">
+                    <h4>Application Layer</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Software interfaces with network (Browsers using HTTP/HTTPS)</p>
+                </div>
+            </div>
+            <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--purple);">
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--purple); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">3</div>
+                <div style="padding: 15px 20px;">
+                    <h4>Transport Layer</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Manages host-to-host communication and reliability (TCP/UDP)</p>
+                </div>
+            </div>
+            <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--blue);">
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--blue); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">2</div>
+                <div style="padding: 15px 20px;">
+                    <h4>Internet Layer</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Global routing and logical addressing (IP addresses)</p>
+                </div>
+            </div>
+            <div style="display: flex; background: var(--bg-card); border-radius: 12px; overflow: hidden; border-left: 5px solid var(--emerald);">
+                <div style="width: 60px; padding: 20px 0; text-align: center; font-family: 'Space Grotesk'; font-weight: 700; font-size: 1.2rem; color: var(--emerald); background: light-dark(rgba(0,0,0,0.05), rgba(0,0,0,0.2));">1</div>
+                <div style="padding: 15px 20px;">
+                    <h4>Network Access Layer</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">Physical hardware transmission (MAC, Ethernet, Wi-Fi)</p>
+                </div>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Network Scopes</h3>
+        <div class="grid-2">
+            <div class="card" style="border-top: 4px solid var(--emerald); text-align: center;">
+                <i class="fa-solid fa-house-signal" style="font-size: 32px; color: var(--emerald); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">LAN</div>
+                <div style="font-size: 0.8rem; color: var(--emerald); font-weight: 600; text-transform: uppercase; margin-bottom: 10px;">Local Area Network</div>
+                <p class="card-text">Confined to small areas (home, school, office). Very fast, privately owned.</p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--blue); text-align: center;">
+                <i class="fa-solid fa-globe" style="font-size: 32px; color: var(--blue); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">WAN</div>
+                <div style="font-size: 0.8rem; color: var(--blue); font-weight: 600; text-transform: uppercase; margin-bottom: 10px;">Wide Area Network</div>
+                <p class="card-text">Spans large distances (cities, global). Requires ISP. The Internet is the largest WAN.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: Operating Systems -->
+    <section id="os" class="section theme-orange">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-gears"></i></div>
+            <div>
+                <h2 class="section-title">Operating Systems</h2>
+                <p class="section-subtitle">The Ultimate Intermediary Between User and Hardware</p>
+            </div>
+        </div>
+        <div class="card" style="margin-bottom: 30px; background: linear-gradient(to right, var(--bg-card), light-dark(#e2e8f0, #0f172a)); border-left: 5px solid var(--cyan);">
+            <div class="card-title"><i class="fa-solid fa-layer-group" style="color: var(--cyan);"></i> What is an OS?</div>
+            <p class="card-text">The most crucial software running on a computer. It manages memory, processes, software, and hardware, providing a platform for everything else to run.</p>
+        </div>
+        <div class="bridge-diagram">
+            <div class="bridge-item">
+                <i class="fa-solid fa-user"></i>
+                <span>User / Apps</span>
+            </div>
+            <i class="fa-solid fa-arrow-right-arrow-left bridge-arrow"></i>
+            <div class="bridge-item os-core">
+                <i class="fa-solid fa-gears"></i>
+                <span>The OS (Bridge)</span>
+            </div>
+            <i class="fa-solid fa-arrow-right-arrow-left bridge-arrow"></i>
+            <div class="bridge-item">
+                <i class="fa-solid fa-microchip"></i>
+                <span>Hardware</span>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Core Roles of the OS</h3>
+        <div class="grid-3">
+            <div class="role-card r-cyan">
+                <div class="role-icon"><i class="fa-solid fa-microchip"></i></div>
+                <h3>Process Manager</h3>
+                <p>Allocates CPU time to programs, enabling seamless multitasking without crashing.</p>
+            </div>
+            <div class="role-card r-purple">
+                <div class="role-icon"><i class="fa-solid fa-memory"></i></div>
+                <h3>Memory Manager</h3>
+                <p>Tracks RAM allocation. Decides what data goes where and prevents program overlap.</p>
+            </div>
+            <div class="role-card r-emerald">
+                <div class="role-icon"><i class="fa-solid fa-folder-tree"></i></div>
+                <h3>File Manager</h3>
+                <p>Organizes raw data into directories on secondary storage (SSD/HDD).</p>
+            </div>
+            <div class="role-card r-orange">
+                <div class="role-icon"><i class="fa-solid fa-print"></i></div>
+                <h3>Device Manager</h3>
+                <p>Uses "Drivers" to communicate with external peripherals (printers, mice, etc).</p>
+            </div>
+            <div class="role-card r-pink">
+                <div class="role-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <h3>Security & Access</h3>
+                <p>Enforces user permissions, passwords, and protects against unauthorized access.</p>
+            </div>
+            <div class="role-card r-yellow">
+                <div class="role-icon"><i class="fa-solid fa-desktop"></i></div>
+                <h3>User Interface</h3>
+                <p>Provides a visual (GUI) or text-based (CLI) way for humans to interact with the machine.</p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The Dual Purpose</h3>
+        <div class="grid-2">
+            <div class="card" style="border-top: 4px solid var(--emerald);">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-face-smile"></i> User Convenience</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li>Hides complex hardware details from the user</li>
+                    <li>Provides standard, intuitive environments (desktop, folders)</li>
+                    <li>Allows anyone to use a PC without knowing binary</li>
+                </ul>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--orange);">
+                <div class="card-title" style="color: var(--orange);"><i class="fa-solid fa-bolt"></i> Hardware Efficiency</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li>Acts as a fair referee for system resources</li>
+                    <li>Ensures expensive hardware (CPU/RAM) is used optimally</li>
+                    <li>Prevents "greedy" programs from monopolizing memory</li>
+                </ul>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Types of Operating Systems</h3>
+        <div class="type-row" style="border-left-color: var(--blue);">
+            <div class="type-icon" style="color: var(--blue);"><i class="fa-solid fa-laptop"></i></div>
+            <div class="type-info">
+                <h3>Desktop OS</h3>
+                <p>Designed for complex multitasking and extensive hardware compatibility.</p>
+                <div class="type-examples">Windows, macOS, Linux</div>
+            </div>
+        </div>
+        <div class="type-row" style="border-left-color: var(--emerald);">
+            <div class="type-icon" style="color: var(--emerald);"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <div class="type-info">
+                <h3>Mobile OS</h3>
+                <p>Optimized for touch interfaces, battery management, and wireless connectivity.</p>
+                <div class="type-examples">iOS, Android</div>
+            </div>
+        </div>
+        <div class="type-row" style="border-left-color: var(--rose);">
+            <div class="type-icon" style="color: var(--rose);"><i class="fa-solid fa-car"></i></div>
+            <div class="type-info">
+                <h3>Embedded OS (RTOS)</h3>
+                <p>Built for specific tasks with high reliability and instant, guaranteed response times.</p>
+                <div class="type-examples">Smart TVs, Car Dashboards, Medical Gear</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: Python For Loops -->
+    <section id="python" class="section theme-yellow">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-brands fa-python"></i></div>
+            <div>
+                <h2 class="section-title">Python For Loops</h2>
+                <p class="section-subtitle">Iterating Through Lists and Ranges</p>
+            </div>
+        </div>
+        <div class="card" style="margin-bottom: 30px;">
+            <div class="card-title"><i class="fa-solid fa-circle-info" style="color: var(--yellow);"></i> What is a For Loop?</div>
+            <p class="card-text">A <strong>for loop</strong> repeats a block of code for each item in a sequence (like a list or range). It automates repetitive tasks without writing the same code over and over.</p>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">1. Looping Through a List</h3>
+        <div class="card" style="margin-bottom: 20px;">
+            <p class="card-text" style="margin-bottom: 15px;">Use a for loop to go through each item in a list, one by one:</p>
+            <div class="code-block">
+<span class="comment"># Define a list of fruits</span>
+<span class="keyword">fruits</span> = [<span class="string">"apple"</span>, <span class="string">"banana"</span>, <span class="string">"cherry"</span>, <span class="string">"date"</span>]
+
+<span class="comment"># Loop through each fruit and print it</span>
+<span class="keyword">for</span> fruit <span class="keyword">in</span> fruits:
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(<span class="string">"I like"</span>, fruit)
+
+<span class="comment"># Output:</span>
+<span class="output">I like apple</span>
+<span class="output">I like banana</span>
+<span class="output">I like cherry</span>
+<span class="output">I like date</span>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-list" style="color: var(--yellow);"></i> How It Works</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li><span class="mono">fruit</span> is the <strong>loop variable</strong> — it holds the current item</li>
+                    <li><span class="mono">fruits</span> is the <strong>list</strong> being iterated</li>
+                    <li>The loop runs <strong>once per item</strong> in the list</li>
+                    <li>Indentation (4 spaces) defines the loop body</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-lightbulb" style="color: var(--yellow);"></i> Common Uses</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li>Print all items in a list</li>
+                    <li>Calculate totals (sum, average)</li>
+                    <li>Search for specific values</li>
+                    <li>Apply the same action to every item</li>
+                </ul>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">2. Looping With Numbers (range)</h3>
+        <div class="card" style="margin-bottom: 20px;">
+            <p class="card-text" style="margin-bottom: 15px;">Use <span class="mono">range()</span> to generate a sequence of numbers to loop through:</p>
+            <div class="code-block">
+<span class="comment"># Print numbers 0 to 4 (5 is NOT included)</span>
+<span class="keyword">for</span> i <span class="keyword">in</span> <span class="function">range</span>(<span class="number">5</span>):
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(i)
+
+<span class="comment"># Output:</span>
+<span class="output">0</span>
+<span class="output">1</span>
+<span class="output">2</span>
+<span class="output">3</span>
+<span class="output">4</span>
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-hashtag" style="color: var(--yellow);"></i> range(start, stop)</div>
+                <div class="code-block">
+<span class="comment"># Start at 1, stop BEFORE 6</span>
+<span class="keyword">for</span> num <span class="keyword">in</span> <span class="function">range</span>(<span class="number">1</span>, <span class="number">6</span>):
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(num)
+
+<span class="comment"># Output: 1, 2, 3, 4, 5</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-forward" style="color: var(--yellow);"></i> range(start, stop, step)</div>
+                <div class="code-block">
+<span class="comment"># Count from 0 to 10, stepping by 2</span>
+<span class="keyword">for</span> num <span class="keyword">in</span> <span class="function">range</span>(<span class="number">0</span>, <span class="number">11</span>, <span class="number">2</span>):
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(num)
+
+<span class="comment"># Output: 0, 2, 4, 6, 8, 10</span>
+                </div>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">3. Practical Examples</h3>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-calculator" style="color: var(--yellow);"></i> Sum of a List</div>
+                <div class="code-block">
+<span class="comment"># Calculate total of numbers</span>
+<span class="keyword">numbers</span> = [<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>, <span class="number">40</span>]
+<span class="keyword">total</span> = <span class="number">0</span>
+
+<span class="keyword">for</span> num <span class="keyword">in</span> numbers:
+&nbsp;&nbsp;&nbsp;&nbsp;total = total + num&nbsp;&nbsp;&nbsp;<span class="comment"># or: total += num</span>
+
+<span class="print">print</span>(<span class="string">"Total:"</span>, total)&nbsp;&nbsp;<span class="comment"># Output: 100</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-magnifying-glass" style="color: var(--yellow);"></i> Find in a List</div>
+                <div class="code-block">
+<span class="comment"># Search for a specific item</span>
+<span class="keyword">names</span> = [<span class="string">"Alice"</span>, <span class="string">"Bob"</span>, <span class="string">"Charlie"</span>]
+
+<span class="keyword">for</span> name <span class="keyword">in</span> names:
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> name == <span class="string">"Bob"</span>:
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(<span class="string">"Found Bob!"</span>)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">break</span>&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Stop the loop early</span>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(252,211,77,0.1), light-dark(rgba(226,232,240,0.6), rgba(15,23,42,0.6)));">
+            <div class="card-title"><i class="fa-solid fa-star" style="color: var(--yellow);"></i> Key Takeaways</div>
+            <div class="grid-2">
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li><span class="mono">for item in list:</span> — loop through list items</li>
+                    <li><span class="mono">for i in range(n):</span> — loop n times (0 to n-1)</li>
+                    <li><span class="mono">for i in range(start, stop):</span> — custom start/stop</li>
+                </ul>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li><span class="mono">for i in range(start, stop, step):</span> — with step size</li>
+                    <li><span class="mono">break</span> — exit loop early</li>
+                    <li><span class="mono">continue</span> — skip to next iteration</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: Algorithms & Big O -->
+    <section id="algorithms" class="section theme-purple">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+                <h2 class="section-title">Algorithms & Big O Notation</h2>
+                <p class="section-subtitle">Understanding Computational Efficiency, Search & Sort</p>
+            </div>
+        </div>
+
+        <div class="algo-header">
+            <h3><i class="fa-solid fa-network-wired mr-2"></i> Algorithms & Big O Notation</h3>
+            <p>A visual guide to understanding computational efficiency, search, and sorting mechanisms.</p>
+        </div>
+
+        <!-- Core Concepts -->
+        <div class="grid-2">
+            <div class="card" style="background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(59,130,246,0.08));">
+                <div class="card-title"><i class="fa-solid fa-chart-line" style="color: var(--purple);"></i> What is Big O?</div>
+                <p class="card-text">Big O notation is the language we use to talk about how long an algorithm takes to run (time complexity) or how much memory it uses (space complexity) as the input size grows. It focuses on the <strong>trend</strong>, not the exact milliseconds.</p>
+            </div>
+            <div class="card" style="background: linear-gradient(135deg, rgba(244,63,94,0.08), rgba(251,146,60,0.08));">
+                <div class="card-title"><i class="fa-solid fa-exclamation-triangle" style="color: var(--rose);"></i> The "Worst Case"</div>
+                <p class="card-text">When programmers say "Big O", they usually mean the <strong>worst-case scenario</strong>. It acts as a ceiling or guarantee: <em>"No matter how messy the data is, this algorithm will never take longer than this to finish."</em></p>
+            </div>
+        </div>
+
+        <!-- Complexity Scale -->
+        <div class="card" style="margin-top: 20px;">
+            <h4 style="font-family: 'Space Grotesk'; color: var(--text-main); margin-bottom: 15px; text-align: center; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">The Efficiency Scale (Best to Worst)</h4>
+            <div class="algo-scale">
+                <div class="algo-scale-item">
+                    <span class="algo-badge algo-green">O(1)</span>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Constant (Instant)</p>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="color: var(--text-muted); align-self: center;"></i>
+                <div class="algo-scale-item">
+                    <span class="algo-badge algo-green">O(log n)</span>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Logarithmic (Fast)</p>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="color: var(--text-muted); align-self: center;"></i>
+                <div class="algo-scale-item">
+                    <span class="algo-badge algo-yellow">O(n)</span>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Linear (Fair)</p>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="color: var(--text-muted); align-self: center;"></i>
+                <div class="algo-scale-item">
+                    <span class="algo-badge algo-orange">O(n log n)</span>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Log-Linear (Decent)</p>
+                </div>
+                <i class="fa-solid fa-chevron-right" style="color: var(--text-muted); align-self: center;"></i>
+                <div class="algo-scale-item">
+                    <span class="algo-badge algo-red">O(n²)</span>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 5px;">Quadratic (Slow)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Searching Algorithms -->
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);"><i class="fa-solid fa-search mr-2"></i> Searching Algorithms</h3>
+        <div class="grid-2">
+            <div class="algo-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem;">Linear Search</h4>
+                    <span class="algo-badge algo-yellow">Worst: O(n)</span>
+                </div>
+                <p class="card-text" style="margin-bottom: 15px;">Checks every single item in a list one by one from start to finish until it finds the target.</p>
+                <div style="padding: 12px; background: var(--card-hover-bg); border-radius: 8px;">
+                    <strong style="color: var(--emerald); font-size: 0.85rem;"><i class="fa-solid fa-check-circle mr-1"></i> Best Used When:</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">The list is small, or the data is entirely <em>unsorted</em>.</p>
+                </div>
+            </div>
+            <div class="algo-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                    <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem;">Binary Search</h4>
+                    <span class="algo-badge algo-green">Worst: O(log n)</span>
+                </div>
+                <p class="card-text" style="margin-bottom: 15px;">Looks at the middle item, decides if the target is higher or lower, and discards half the list. Repeats until found.</p>
+                <div style="padding: 12px; background: var(--card-hover-bg); border-radius: 8px;">
+                    <strong style="color: var(--emerald); font-size: 0.85rem;"><i class="fa-solid fa-check-circle mr-1"></i> Best Used When:</strong>
+                    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 5px;">You have a massive dataset that is <em>already sorted</em>.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sorting Algorithms -->
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);"><i class="fa-solid fa-sort-amount-down mr-2"></i> Sorting Algorithms</h3>
+        <div class="grid-2">
+            <div class="algo-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                    <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem;"><i class="fa-solid fa-soap mr-2" style="color: var(--text-muted);"></i> Bubble Sort</h4>
+                    <span class="algo-badge algo-red">Worst: O(n²)</span>
+                </div>
+                <p class="card-text" style="margin-bottom: 10px;">Steps through the list, compares adjacent elements, and swaps them if they are in the wrong order. Large items "bubble" to the top.</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-info-circle mr-1"></i> Simple to code, but terribly inefficient for large lists.</p>
+            </div>
+            <div class="algo-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                    <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem;"><i class="fa-solid fa-crosshairs mr-2" style="color: var(--text-muted);"></i> Selection Sort</h4>
+                    <span class="algo-badge algo-red">Worst: O(n²)</span>
+                </div>
+                <p class="card-text" style="margin-bottom: 10px;">Scans the unsorted part of the list to find the absolute minimum value, then swaps it to the front. Repeats for the next position.</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-info-circle mr-1"></i> Minimizes the number of actual swaps made, but still slow.</p>
+            </div>
+            <div class="algo-card">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                    <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem;"><i class="fa-solid fa-layer-group mr-2" style="color: var(--text-muted);"></i> Insertion Sort</h4>
+                    <span class="algo-badge algo-red">Worst: O(n²)</span>
+                </div>
+                <p class="card-text" style="margin-bottom: 10px;">Builds the final sorted list one item at a time by picking up the next item and inserting it into its correct position in the sorted portion.</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted);"><i class="fa-solid fa-info-circle mr-1"></i> Highly efficient for very small or nearly sorted datasets.</p>
+            </div>
+            <div class="algo-card" style="border: 2px solid var(--blue);">
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+                    <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem; color: var(--blue);"><i class="fa-solid fa-bolt mr-2"></i> Quick Sort</h4>
+                    <div style="text-align: right;">
+                        <span class="algo-badge algo-red" style="display: block; margin-bottom: 4px; font-size: 0.75rem;">Worst: O(n²)</span>
+                        <span class="algo-badge algo-orange" style="display: block; font-size: 0.75rem;">Avg: O(n log n)</span>
+                    </div>
+                </div>
+                <p class="card-text" style="margin-bottom: 10px;">Picks a "pivot" item, partitions all smaller items to its left and larger to its right, then recursively sorts the left and right halves.</p>
+                <p style="font-size: 0.8rem; color: var(--blue);"><i class="fa-solid fa-star mr-1"></i> Extremely fast in practice. The standard sorting algorithm in many programming languages.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px; text-align: center; background: linear-gradient(135deg, rgba(6,182,212,0.05), rgba(139,92,246,0.05));">
+            <p style="color: var(--text-muted); font-size: 0.95rem;"><strong style="color: var(--text-main);">Remember:</strong> Efficiency isn't just about speed, it's about how well your code handles scale.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 9: Recursion -->
+    <section id="recursion" class="section theme-rose">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-arrows-spin"></i></div>
+            <div>
+                <h2 class="section-title">Recursion</h2>
+                <p class="section-subtitle">A Method Where Solutions Depend on Smaller Instances of the Same Problem</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 30px; background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.1));">
+            <div class="card-title"><i class="fa-solid fa-arrows-spin" style="color: var(--purple);"></i> What is Recursion?</div>
+            <p class="card-text">A method where a solution depends on solutions to <strong>smaller instances</strong> of the same problem. A function calls itself repeatedly until reaching a stopping condition.</p>
+        </div>
+
+        <!-- The Two Rules -->
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);"><i class="fa-solid fa-scale-balanced mr-2"></i> The Anatomy: Two Essential Rules</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Every valid recursive algorithm must have these two parts to function correctly without crashing.</p>
+
+        <div class="recursion-rule base">
+            <div class="recursion-icon"><i class="fa-solid fa-hand-paper"></i></div>
+            <div>
+                <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem; margin-bottom: 5px;">1. The Base Case (The Stop Sign)</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">The condition that <strong>terminates</strong> the recursion. Without this, the function will call itself infinitely, leading to a <strong style="color: var(--rose);">Stack Overflow</strong>.</p>
+            </div>
+        </div>
+        <div class="recursion-rule recursive">
+            <div class="recursion-icon"><i class="fa-solid fa-down-left-and-up-right-to-center"></i></div>
+            <div>
+                <h4 style="font-family: 'Space Grotesk'; font-size: 1.2rem; margin-bottom: 5px;">2. The Recursive Case (The Step)</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">The part where the function <strong>calls itself</strong>. Crucially, it must modify the input so it moves <strong>closer to the base case</strong> with each call.</p>
+            </div>
+        </div>
+
+        <!-- The Call Stack -->
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);"><i class="fa-solid fa-layer-group mr-2"></i> Under the Hood: The Call Stack</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Because recursive calls wait for their inner calls to finish, the computer stores them in a <strong>Call Stack</strong> (Last In, First Out).</p>
+
+        <div class="stack-visual">
+            <div class="stack-arrows">
+                <span><i class="fa-solid fa-arrow-down"></i> Push (New Calls)</span>
+                <span>Pop (Returning) <i class="fa-solid fa-arrow-up"></i></span>
+            </div>
+            <div class="stack-frame">factorial(3) - Waiting...</div>
+            <div class="stack-frame">factorial(2) - Waiting...</div>
+            <div class="stack-frame">factorial(1) - Base Case Hit!</div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 15px; text-align: center;">
+                Once the base case is reached, values cascade back down the stack, multiplying to give the final answer.
+            </p>
+        </div>
+
+        <!-- Pros & Cons -->
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);"><i class="fa-solid fa-code-compare mr-2"></i> Recursion vs Iteration</h3>
+        <div class="pros-cons-grid">
+            <div class="pc-card pros">
+                <h3><i class="fa-solid fa-thumbs-up"></i> Advantages</h3>
+                <ul>
+                    <li><strong>Elegant Code:</strong> Transforms complex loop logic into highly readable, concise code.</li>
+                    <li><strong>Math-friendly:</strong> Directly translates mathematical formulas (like Fibonacci).</li>
+                    <li><strong>Complex Data:</strong> Ideal for searching trees, graphs, and nested folders.</li>
+                </ul>
+            </div>
+            <div class="pc-card cons">
+                <h3><i class="fa-solid fa-thumbs-down"></i> Disadvantages</h3>
+                <ul>
+                    <li><strong>High Memory Usage:</strong> Every recursive call adds a frame to the call stack.</li>
+                    <li><strong>Risk of Crashes:</strong> Missing a base case causes a Stack Overflow error.</li>
+                    <li><strong>Slower Execution:</strong> Function calling overhead makes it slower than standard loops.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Python Example -->
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);"><i class="fa-brands fa-python mr-2"></i> Classic Example: Factorial</h3>
+        <p style="color: var(--text-muted); margin-bottom: 15px;">Calculating a factorial (e.g., 5! = 5 × 4 × 3 × 2 × 1 = 120) is the standard intro to recursion.</p>
+
+        <div class="code-container">
+            <div class="code-header">
+                <div class="dot red"></div>
+                <div class="dot yellow"></div>
+                <div class="dot green"></div>
+                <div class="code-title">factorial.py</div>
+            </div>
+            <pre><code><span class="code-keyword">def</span> <span class="code-function">factorial</span>(n):
+    <span class="code-comment"># 1. The Base Case</span>
+    <span class="code-keyword">if</span> n <span class="code-operator">==</span> <span class="code-number">1</span>:
+        <span class="code-keyword">return</span> <span class="code-number">1</span>
+
+    <span class="code-comment"># 2. The Recursive Case</span>
+    <span class="code-keyword">else</span>:
+        <span class="code-keyword">return</span> n <span class="code-operator">*</span> <span class="code-function">factorial</span>(n <span class="code-operator">-</span> <span class="code-number">1</span>)
+
+<span class="code-function">print</span>(<span class="code-function">factorial</span>(<span class="code-number">5</span>)) <span class="code-comment"># Outputs: 120</span></code></pre>
+        </div>
+    </section>
+
+    <!-- SECTION 10: Computing History -->
+    <section id="history" class="section theme-rose">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <div>
+                <h2 class="section-title">The Architecture of Thought</h2>
+                <p class="section-subtitle">From theoretical mathematics to the global digital network</p>
+            </div>
+        </div>
+        <div class="card" style="margin-bottom: 30px;">
+            <span class="badge" style="background: rgba(244,63,94,0.1); color: var(--rose);">1936 · The Foundation</span>
+            <div class="card-title"><i class="fa-solid fa-brain" style="color: var(--rose);"></i> The Turing Machine</div>
+            <p class="card-text" style="margin-bottom: 20px;">Alan Turing's mathematical model — not a physical device, but an abstract blueprint proving that <strong>any computable problem can be solved by a simple set of rules</strong>.</p>
+            <div class="grid-3">
+                <div style="text-align: center; padding: 20px; background: var(--card-hover-bg); border-radius: 8px;">
+                    <i class="fa-solid fa-tape" style="font-size: 24px; color: var(--purple); margin-bottom: 10px;"></i>
+                    <h5 style="margin-bottom: 5px;">Infinite Tape</h5>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Divided into cells holding symbols (1s and 0s)</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: var(--card-hover-bg); border-radius: 8px;">
+                    <i class="fa-solid fa-arrows-left-right" style="font-size: 24px; color: var(--purple); margin-bottom: 10px;"></i>
+                    <h5 style="margin-bottom: 5px;">Read/Write Head</h5>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Moves left or right, reading or altering symbols</p>
+                </div>
+                <div style="text-align: center; padding: 20px; background: var(--card-hover-bg); border-radius: 8px;">
+                    <i class="fa-solid fa-diagram-project" style="font-size: 24px; color: var(--purple); margin-bottom: 10px;"></i>
+                    <h5 style="margin-bottom: 5px;">State Register</h5>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Remembers the current "state" of the machine</p>
+                </div>
+            </div>
+            <div style="margin-top: 20px; padding: 16px; background: rgba(139,92,246,0.05); border-radius: 8px; border-left: 3px solid var(--purple);">
+                <strong style="color: var(--purple);"><i class="fa-solid fa-robot"></i> Link to AI:</strong>
+                <span style="color: var(--text-muted); font-size: 0.9rem;"> If human cognition is algorithmic, a Turing Machine can theoretically simulate a human mind. This led to the <strong>Turing Test</strong> — a benchmark for AI.</span>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Foundational Architectures</h3>
+        <div class="grid-2">
+            <div class="card">
+                <span class="badge" style="background: rgba(245,158,11,0.1); color: var(--amber);">1830s</span>
+                <div class="card-title"><i class="fa-solid fa-gears" style="color: var(--amber);"></i> Analytical Engine</div>
+                <p class="card-text">Designed by <strong>Charles Babbage</strong> — first mechanical general-purpose computer design.</p>
+                <ul style="color: var(--text-muted); font-size: 0.85rem; padding-left: 20px; margin-top: 10px; line-height: 1.8;">
+                    <li>Featured a "Mill" (CPU) and "Store" (Memory)</li>
+                    <li><strong>Ada Lovelace</strong> wrote the first algorithm for it</li>
+                </ul>
+            </div>
+            <div class="card">
+                <span class="badge" style="background: rgba(245,158,11,0.1); color: var(--amber);">1945</span>
+                <div class="card-title"><i class="fa-solid fa-server" style="color: var(--amber);"></i> Von Neumann Architecture</div>
+                <p class="card-text">Formalized by <strong>John von Neumann</strong> — the "Stored-Program" concept used in almost all modern computers.</p>
+                <ul style="color: var(--text-muted); font-size: 0.85rem; padding-left: 20px; margin-top: 10px; line-height: 1.8;">
+                    <li>Program instructions and data share same memory</li>
+                    <li>CPU (ALU + Control Unit), Memory, and I/O</li>
+                </ul>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Hardware Evolution</h3>
+        <div class="timeline">
+            <div class="timeline-item">
+                <span class="timeline-date">1940s: Vacuum Tubes</span>
+                <h4 style="color: var(--text-main); margin-bottom: 5px;">The Era of Glass and Heat</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Early computers like ENIAC used bulky glass tubes. Generated immense heat and frequently burned out.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">1947: Transistors</span>
+                <h4 style="color: var(--text-main); margin-bottom: 5px;">The Solid-State Revolution</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Invented at Bell Labs. Microscopic semiconductors replaced tubes — faster, smaller, cooler, more reliable.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">1958: Integrated Circuits (ICs)</span>
+                <h4 style="color: var(--text-main); margin-bottom: 5px;">Circuits on Silicon</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Multiple transistors, resistors, and capacitors etched onto a single piece of silicon.</p>
+            </div>
+            <div class="timeline-item">
+                <span class="timeline-date">1971: Microprocessors</span>
+                <h4 style="color: var(--text-main); margin-bottom: 5px;">The Computer on a Chip</h4>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Intel releases the 4004. All CPU components on one microscopic chip — birthing personal computing.</p>
+            </div>
+        </div>
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Networking the World</h3>
+        <div class="grid-2">
+            <div class="card" style="border-left-color: var(--blue);">
+                <div class="card-title"><i class="fa-solid fa-network-wired" style="color: var(--blue);"></i> ARPANET (1969)</div>
+                <p class="card-text">Funded by US DoD — first packet-switched network. Introduced <strong>TCP/IP</strong>, allowing disparate networks to communicate, creating the "Internet".</p>
+            </div>
+            <div class="card" style="border-left-color: var(--purple);">
+                <div class="card-title"><i class="fa-solid fa-laptop-code" style="color: var(--purple);"></i> World Wide Web (1989)</div>
+                <p class="card-text">Invented by <strong>Tim Berners-Lee</strong> at CERN. Created <strong>HTTP</strong>, <strong>HTML</strong>, and <strong>URLs</strong>, turning the Internet into an accessible, navigable web.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="font-size: 1.1rem; margin-bottom: 8px;">🎓 Revision Notes from the Saturday Session</p>
+        <p style="font-size: 0.85rem;">10 Topics · From NextGenCoding</p>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.style.colorScheme = savedTheme;
+        updateIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.style.colorScheme || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.style.colorScheme = newTheme;
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            const label = document.getElementById('themeLabel');
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+                if (label) label.textContent = 'Dark';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+                if (label) label.textContent = 'Light';
+            }
+        }
+        
+        // Smooth scroll prevention for hash links to ensure proper default behavior
+        // (The scroll-margin-top CSS and scroll-behavior already handle this well)
+        document.querySelectorAll('.nav-btn').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Update URL without causing jump
+                    history.pushState(null, null, `#${targetId}`);
+                }
+            });
+        });
+        
+        // Initial check for hash on load
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                setTimeout(() => {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+        }
+    </script>
+
+</body>
+</html>
