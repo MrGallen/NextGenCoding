@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <title>Leaving Cert CS — Foundations of Software Engineering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700;800&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            color-scheme: light dark;
+            --light-bg: #f8fafc;
+            --light-bg-card: #ffffff;
+            --light-bg-section: #f1f5f9;
+            --light-border: #e2e8f0;
+            --light-text-main: #0f172a;
+            --light-text-muted: #64748b;
+            --light-hero-bg: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(139,92,246,0.08));
+            --light-card-hover: rgba(0,0,0,0.03);
+            --light-code-bg: #f1f5f9;
+            --light-nav-bg: rgba(255,255,255,0.95);
+            --dark-bg: #020617;
+            --dark-bg-card: #0f172a;
+            --dark-bg-section: #111827;
+            --dark-border: #1e293b;
+            --dark-text-main: #f8fafc;
+            --dark-text-muted: #94a3b8;
+            --dark-hero-bg: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(139,92,246,0.1));
+            --dark-card-hover: rgba(255,255,255,0.05);
+            --dark-code-bg: #0d1117;
+            --dark-nav-bg: rgba(2,6,23,0.95);
+            --cyan: #06b6d4;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --pink: #ec4899;
+            --amber: #f59e0b;
+            --emerald: #10b981;
+            --rose: #f43f5e;
+            --orange: #fb923c;
+            --yellow: #fcd34d;
+            --indigo: #6366f1;
+            --teal: #14b8a6;
+            --bg: light-dark(var(--light-bg), var(--dark-bg));
+            --bg-card: light-dark(var(--light-bg-card), var(--dark-bg-card));
+            --bg-section: light-dark(var(--light-bg-section), var(--dark-bg-section));
+            --border-color: light-dark(var(--light-border), var(--dark-border));
+            --text-main: light-dark(var(--light-text-main), var(--dark-text-main));
+            --text-muted: light-dark(var(--light-text-muted), var(--dark-text-muted));
+            --hero-bg: light-dark(var(--light-hero-bg), var(--dark-hero-bg));
+            --card-hover-bg: light-dark(var(--light-card-hover), var(--dark-card-hover));
+            --code-bg: light-dark(var(--light-code-bg), var(--dark-code-bg));
+            --nav-bg: light-dark(var(--light-nav-bg), var(--dark-nav-bg));
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .theme-toggle {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            z-index: 1001;
+            width: auto;
+            height: 44px;
+            padding: 0 18px;
+            border-radius: 22px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+        .nav-bar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-btn:hover {
+            background: var(--bg-section);
+            color: var(--text-main);
+            border-color: var(--cyan);
+        }
+        .hero {
+            text-align: center;
+            padding: 120px 40px 80px;
+            background: var(--hero-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(circle at 20% 50%, rgba(6,182,212,0.08), transparent 50%),
+                              radial-gradient(circle at 80% 50%, rgba(139,92,246,0.08), transparent 50%);
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--cyan), var(--blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 40px;
+            position: relative;
+        }
+        .stat-item { text-align: center; }
+        .stat-num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .section {
+            padding: 60px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid var(--border-color);
+            scroll-margin-top: 80px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .section-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            font-weight: 700;
+        }
+        .section-subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 4px;
+        }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            transition: transform 0.2s, border-color 0.2s, background-color 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            border-color: light-dark(rgba(0,0,0,0.15), rgba(255,255,255,0.1));
+        }
+        .card-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        .grid-5 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+
+        .theme-cyan .section-icon { background: rgba(6,182,212,0.15); color: var(--cyan); }
+        .theme-cyan .section-title { color: var(--cyan); }
+        .theme-cyan .card { border-left: 3px solid var(--cyan); }
+        .theme-blue .section-icon { background: rgba(59,130,246,0.15); color: var(--blue); }
+        .theme-blue .section-title { color: var(--blue); }
+        .theme-blue .card { border-left: 3px solid var(--blue); }
+        .theme-purple .section-icon { background: rgba(139,92,246,0.15); color: var(--purple); }
+        .theme-purple .section-title { color: var(--purple); }
+        .theme-purple .card { border-left: 3px solid var(--purple); }
+        .theme-amber .section-icon { background: rgba(245,158,11,0.15); color: var(--amber); }
+        .theme-amber .section-title { color: var(--amber); }
+        .theme-amber .card { border-left: 3px solid var(--amber); }
+        .theme-emerald .section-icon { background: rgba(16,185,129,0.15); color: var(--emerald); }
+        .theme-emerald .section-title { color: var(--emerald); }
+        .theme-emerald .card { border-left: 3px solid var(--emerald); }
+        .theme-rose .section-icon { background: rgba(244,63,94,0.15); color: var(--rose); }
+        .theme-rose .section-title { color: var(--rose); }
+        .theme-rose .card { border-left: 3px solid var(--rose); }
+        .theme-orange .section-icon { background: rgba(251,146,60,0.15); color: var(--orange); }
+        .theme-orange .section-title { color: var(--orange); }
+        .theme-orange .card { border-left: 3px solid var(--orange); }
+        .theme-yellow .section-icon { background: rgba(252,211,77,0.15); color: var(--yellow); }
+        .theme-yellow .section-title { color: var(--yellow); }
+        .theme-yellow .card { border-left: 3px solid var(--yellow); }
+        .theme-indigo .section-icon { background: rgba(99,102,241,0.15); color: var(--indigo); }
+        .theme-indigo .section-title { color: var(--indigo); }
+        .theme-indigo .card { border-left: 3px solid var(--indigo); }
+        .theme-teal .section-icon { background: rgba(20,184,166,0.15); color: var(--teal); }
+        .theme-teal .section-title { color: var(--teal); }
+        .theme-teal .card { border-left: 3px solid var(--teal); }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--cyan), var(--blue), var(--purple));
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -28px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 3px solid var(--cyan);
+        }
+        .timeline-date {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--cyan);
+            font-weight: 700;
+            font-size: 0.875rem;
+            margin-bottom: 4px;
+        }
+        .mono {
+            font-family: 'Space Mono', monospace;
+            background: var(--code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85em;
+        }
+        .code-block {
+            background: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.8;
+            overflow-x: auto;
+            margin: 15px 0;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .code-block .comment { color: light-dark(#64748b, #8b949e); }
+        .code-block .keyword { color: light-dark(#d73a49, #ff7b72); }
+        .code-block .string { color: light-dark(#032f62, #a5d6ff); }
+        .code-block .function { color: light-dark(#6f42c1, #d2a8ff); }
+        .code-block .number { color: light-dark(#005cc5, #79c0ff); }
+        .code-block .print { color: light-dark(#e36209, #f0883e); }
+        .code-block .output { color: light-dark(#22863a, #7ee787); }
+        .reg-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .reg-table th, .reg-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .reg-table th {
+            color: var(--rose);
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+            background: rgba(244,63,94,0.05);
+        }
+        .reg-table tr:hover td {
+            background: var(--card-hover-bg);
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .comp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+        .comp-stat {
+            font-family: 'Space Mono', monospace;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+        .comp-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .pros-cons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .pros { border-top: 4px solid var(--emerald); }
+        .cons { border-top: 4px solid var(--rose); }
+        .list-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 12px;
+            background: var(--card-hover-bg);
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .list-item i { margin-top: 3px; }
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            background: var(--bg-card);
+        }
+        .phase-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 3px solid;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .phase-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 30px 0;
+        }
+        .phase-arrow {
+            font-size: 20px;
+            color: var(--text-muted);
+        }
+        .method-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.2s;
+        }
+        .method-card:hover { transform: translateY(-4px); }
+        .method-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        .warning-box {
+            background: rgba(244,63,94,0.08);
+            border-left: 4px solid var(--rose);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .info-box {
+            background: rgba(6,182,212,0.08);
+            border-left: 4px solid var(--cyan);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .success-box {
+            background: rgba(16,185,129,0.08);
+            border-left: 4px solid var(--emerald);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+        .protocol-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border-left: 4px solid;
+        }
+        .protocol-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .role-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 4px solid;
+            transition: transform 0.2s;
+        }
+        .role-card:hover { transform: translateY(-5px); }
+        .role-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.5rem;
+        }
+        .role-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; margin-bottom: 10px; }
+        .role-card p { font-size: 0.95rem; color: var(--text-muted); }
+        .r-cyan { border-top-color: var(--cyan); }
+        .r-cyan .role-icon { background: rgba(6,182,212,0.1); color: var(--cyan); }
+        .r-purple { border-top-color: var(--purple); }
+        .r-purple .role-icon { background: rgba(139,92,246,0.1); color: var(--purple); }
+        .r-emerald { border-top-color: var(--emerald); }
+        .r-emerald .role-icon { background: rgba(16,185,129,0.1); color: var(--emerald); }
+        .r-orange { border-top-color: var(--orange); }
+        .r-orange .role-icon { background: rgba(251,146,60,0.1); color: var(--orange); }
+        .r-pink { border-top-color: var(--pink); }
+        .r-pink .role-icon { background: rgba(236,72,153,0.1); color: var(--pink); }
+        .r-yellow { border-top-color: var(--yellow); }
+        .r-yellow .role-icon { background: rgba(252,211,77,0.1); color: var(--yellow); }
+        .r-blue { border-top-color: var(--blue); }
+        .r-blue .role-icon { background: rgba(59,130,246,0.1); color: var(--blue); }
+        .r-rose { border-top-color: var(--rose); }
+        .r-rose .role-icon { background: rgba(244,63,94,0.1); color: var(--rose); }
+
+        @media (max-width: 768px) {
+            .section { padding: 40px 20px; }
+            .hero-stats { gap: 20px; }
+            .comparison-grid, .pros-cons { grid-template-columns: 1fr; }
+            .nav-bar { padding: 8px; gap: 4px; }
+            .nav-btn { padding: 6px 10px; font-size: 11px; }
+            .theme-toggle { top: 60px; right: 10px; height: 40px; padding: 0 14px; font-size: 1rem; }
+            .phase-row { flex-direction: column; }
+            .phase-arrow { transform: rotate(90deg); }
+        }
+        html { scroll-behavior: smooth; }
+        @media print {
+            .nav-bar, .theme-toggle { display: none; }
+            .section { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+        <span id="themeLabel" style="margin-left: 8px; font-size: 0.85rem; font-weight: 600;">Dark</span>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <a href="#sdlc" class="nav-btn">🔄 SDLC</a>
+        <a href="#testing" class="nav-btn">🧪 Testing</a>
+        <a href="#design" class="nav-btn">🎨 Design</a>
+        <a href="#modelling" class="nav-btn">📐 Models</a>
+        <a href="#electronics" class="nav-btn">⚡ Electronics</a>
+        <a href="#embedded" class="nav-btn">🔌 Embedded</a>
+        <a href="#python" class="nav-btn">🐍 Python</a>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero">
+        <h1>Foundations of Software Engineering</h1>
+        <p>Complete Leaving Cert Computer Science Reference — SDLC, Testing, Design, Modelling, Electronics & Python</p>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-num">7</div>
+                <div class="stat-label">Core Units</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">50+</div>
+                <div class="stat-label">Key Concepts</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">1</div>
+                <div class="stat-label">Source</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: SDLC -->
+    <section id="sdlc" class="section theme-cyan">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-arrows-spin"></i></div>
+            <div>
+                <h2 class="section-title">Software Development Life Cycle</h2>
+                <p class="section-subtitle">The systematic roadmap for building quality software</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 30px;">
+            <div class="card-title"><i class="fa-solid fa-book-open" style="color: var(--cyan);"></i> What is the SDLC?</div>
+            <p class="card-text">A <strong>structured process</strong> for building software that ensures quality and efficiency. It reduces waste of time and resources, ensures the software meets user needs, and provides clear goals and management structure.</p>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The 5 Major Phases</h3>
+        <div class="phase-row">
+            <div class="phase-circle" style="border-color: var(--cyan); color: var(--cyan);">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Analysis</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--blue); color: var(--blue);">
+                <i class="fa-solid fa-pen-ruler" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Design</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--purple); color: var(--purple);">
+                <i class="fa-solid fa-code" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Dev</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--amber); color: var(--amber);">
+                <i class="fa-solid fa-vial" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Testing</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--emerald); color: var(--emerald);">
+                <i class="fa-solid fa-wrench" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Maintenance</span>
+            </div>
+        </div>
+
+        <div class="grid-5">
+            <div class="card" style="border-left-color: var(--cyan) !important;">
+                <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-magnifying-glass"></i> Analysis</div>
+                <p class="card-text">Gathering requirements from stakeholders to understand <strong>what</strong> the software must do.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--blue) !important;">
+                <div class="card-title" style="color: var(--blue);"><i class="fa-solid fa-pen-ruler"></i> Design</div>
+                <p class="card-text">Planning architecture, user interfaces, and data structures. The blueprint phase.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--purple) !important;">
+                <div class="card-title" style="color: var(--purple);"><i class="fa-solid fa-code"></i> Development</div>
+                <p class="card-text">The actual coding phase where programmers write and build the software.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--amber) !important;">
+                <div class="card-title" style="color: var(--amber);"><i class="fa-solid fa-vial"></i> Testing</div>
+                <p class="card-text">Identifying bugs and ensuring everything works as specified before release.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald) !important;">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-wrench"></i> Maintenance</div>
+                <p class="card-text">Fixing issues and adding features after deployment. The longest phase.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">SDLC Methodologies</h3>
+        <div class="grid-3">
+            <div class="method-card" style="border-top: 4px solid var(--blue);">
+                <span class="badge" style="background: rgba(59,130,246,0.1); color: var(--blue);">Staged</span>
+                <h3 style="color: var(--blue);"><i class="fa-solid fa-water"></i> Waterfall</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">A linear, sequential model where progress flows downwards like a waterfall. Each phase must be completed before the next begins.</p>
+                <ul style="color: var(--text-muted); font-size: 0.85rem; padding-left: 18px; line-height: 1.8;">
+                    <li>Easy to manage due to rigidity</li>
+                    <li>Best for fixed, clear requirements</li>
+                    <li>High risk if changes needed late</li>
+                </ul>
+            </div>
+            <div class="method-card" style="border-top: 4px solid var(--purple);">
+                <span class="badge" style="background: rgba(139,92,246,0.1); color: var(--purple);">Iterative</span>
+                <h3 style="color: var(--purple);"><i class="fa-solid fa-rotate"></i> Iterative Model</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">Development begins with a small set of requirements and iteratively enhances the software through repeated cycles.</p>
+                <ul style="color: var(--text-muted); font-size: 0.85rem; padding-left: 18px; line-height: 1.8;">
+                    <li>Early prototypes created quickly</li>
+                    <li>Feedback informs next version</li>
+                    <li>Reduces risk by finding issues early</li>
+                </ul>
+            </div>
+            <div class="method-card" style="border-top: 4px solid var(--emerald);">
+                <span class="badge" style="background: rgba(16,185,129,0.1); color: var(--emerald);">Agile</span>
+                <h3 style="color: var(--emerald);"><i class="fa-solid fa-person-running"></i> Agile</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">An iterative approach focused on collaboration, customer feedback, and small frequent releases.</p>
+                <ul style="color: var(--text-muted); font-size: 0.85rem; padding-left: 18px; line-height: 1.8;">
+                    <li>Works in "Sprints" (2-4 weeks)</li>
+                    <li>Highly flexible and adapts to change</li>
+                    <li>Delivers working software early</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h4 style="font-family: 'Space Grotesk'; margin-bottom: 15px;"><i class="fa-solid fa-table-list" style="color: var(--cyan);"></i> Model Comparison</h4>
+            <div style="overflow-x: auto;">
+                <table class="reg-table">
+                    <tr>
+                        <th>Feature</th>
+                        <th>Staged (Waterfall)</th>
+                        <th>Iterative</th>
+                        <th>Agile</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Flexibility</strong></td>
+                        <td>Low (Fixed)</td>
+                        <td>Medium</td>
+                        <td>Very High</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Customer Involvement</strong></td>
+                        <td>Start & End only</td>
+                        <td>Periodic</td>
+                        <td>Continuous</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Delivery</strong></td>
+                        <td>Single (at the end)</td>
+                        <td>Multiple (versions)</td>
+                        <td>Small & Frequent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Best for...</strong></td>
+                        <td>Stable Requirements</td>
+                        <td>Large Scale Projects</td>
+                        <td>Fast-changing Needs</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Key Roles</h3>
+        <div class="grid-3">
+            <div class="role-card r-cyan">
+                <div class="role-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <h3>Project Manager</h3>
+                <p>The leader overseeing the entire lifecycle. Sets goals, manages timelines, allocates resources, and ensures communication.</p>
+            </div>
+            <div class="role-card r-purple">
+                <div class="role-icon"><i class="fa-solid fa-briefcase"></i></div>
+                <h3>Business Analyst</h3>
+                <p>The bridge between client needs and the technical team. Gathers requirements and translates "what the user wants" into specs.</p>
+            </div>
+            <div class="role-card r-blue">
+                <div class="role-icon"><i class="fa-solid fa-laptop-code"></i></div>
+                <h3>Developer</h3>
+                <p>Writes the actual source code. Implements designs, solves algorithmic problems, builds frontend and backend systems.</p>
+            </div>
+            <div class="role-card r-emerald">
+                <div class="role-icon"><i class="fa-solid fa-bug-slash"></i></div>
+                <h3>Software Tester (QA)</h3>
+                <p>Ensures the final product meets quality standards. Identifies bugs and verifies that requirements are met.</p>
+            </div>
+            <div class="role-card r-orange">
+                <div class="role-icon"><i class="fa-solid fa-users"></i></div>
+                <h3>Stakeholders</h3>
+                <p>Anyone with interest in the software: clients, end users, investors. Provide feedback and approve the final product.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Real-World Application</h3>
+        <div class="grid-2">
+            <div class="card" style="border-left-color: var(--blue) !important;">
+                <div class="card-title" style="color: var(--blue);"><i class="fa-solid fa-building-columns"></i> Banking System (Waterfall)</div>
+                <p class="card-text">Regulations are strict and security is paramount. Requirements rarely change mid-project. A structured, step-by-step approach ensures compliance.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald) !important;">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-mobile-screen"></i> Social Media App (Agile)</div>
+                <p class="card-text">User preferences change daily. Apps like Instagram or TikTok use Agile to release weekly updates, testing new features with real users.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: Testing & QA -->
+    <section id="testing" class="section theme-rose">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-vial-circle-check"></i></div>
+            <div>
+                <h2 class="section-title">Testing & Quality Assurance</h2>
+                <p class="section-subtitle">Evaluating, debugging, and refining digital solutions</p>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-shield-halved" style="color: var(--rose);"></i> Why Testing is Critical</div>
+                <div class="list-item"><i class="fa-solid fa-lock" style="color: var(--rose);"></i><div><strong>Reliability</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Ensures software performs consistently under expected conditions.</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-heart-pulse" style="color: var(--rose);"></i><div><strong>Safety & Security</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Prevents catastrophic failures in safety-critical systems.</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-coins" style="color: var(--rose);"></i><div><strong>Cost Efficiency</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Fixing bugs early is significantly cheaper than post-release.</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-face-smile" style="color: var(--rose);"></i><div><strong>User Experience</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Protects brand reputation by delivering smooth, bug-free products.</span></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-bug" style="color: var(--rose);"></i> Testing vs. Debugging</div>
+                <p class="card-text" style="margin-bottom: 15px;"><strong>Testing</strong> is the process of <em>finding</em> errors or bugs. It asks: <em>"Does the system work as intended?"</em></p>
+                <p class="card-text" style="margin-bottom: 15px;"><strong>Debugging</strong> is the process of <em>fixing</em> errors. It involves locating the root cause and resolving it.</p>
+                <div class="info-box">
+                    <strong style="color: var(--cyan);"><i class="fa-solid fa-arrows-spin"></i> The Cycle:</strong>
+                    <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Testing uncovers the flaw → Debugging removes it → Testing verifies the fix.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Testing Levels</h3>
+        <div class="grid-3">
+            <div class="card" style="border-left-color: var(--purple) !important;">
+                <div class="card-title" style="color: var(--purple);"><i class="fa-solid fa-cube"></i> Unit Testing</div>
+                <p class="card-text">Testing the smallest possible components (a single function or method). Uses test drivers to execute code. Ensures individual logic units work before assembly.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--blue) !important;">
+                <div class="card-title" style="color: var(--blue);"><i class="fa-solid fa-puzzle-piece"></i> Integration Testing</div>
+                <p class="card-text">Tests interactions between modules, databases, and APIs. Focuses on the "integrated" system rather than isolated parts.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald) !important;">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-globe"></i> System Testing</div>
+                <p class="card-text">The entire system is tested as a whole against functional requirements. Verifies end-to-end business processes.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h4 style="font-family: 'Space Grotesk'; margin-bottom: 15px;"><i class="fa-solid fa-list-check" style="color: var(--rose);"></i> Functional vs. Non-Functional</h4>
+            <div style="overflow-x: auto;">
+                <table class="reg-table">
+                    <tr>
+                        <th>Category</th>
+                        <th>Definition</th>
+                        <th>Examples</th>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: var(--emerald);">Functional</strong></td>
+                        <td>"What the system DOES"</td>
+                        <td>Login, Calculations, Data retrieval, API calls</td>
+                    </tr>
+                    <tr>
+                        <td><strong style="color: var(--purple);">Non-Functional</strong></td>
+                        <td>"How the system PERFORMS"</td>
+                        <td>Speed, Security, Scalability, Accessibility, Usability</td>
+                    </tr>
+                </table>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 10px;"><i class="fa-solid fa-circle-info"></i> Modern LCCS projects must address Accessibility (Non-functional requirement).</p>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Testing Methodologies</h3>
+        <div class="grid-2">
+            <div class="card" style="border-left-color: var(--amber) !important;">
+                <div class="card-title" style="color: var(--amber);"><i class="fa-solid fa-box"></i> Black Box Testing</div>
+                <p class="card-text">Internal logic is <strong>hidden</strong>. The tester only sees inputs and outputs. Focused on user requirements and functionality, not code structure.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--cyan) !important;">
+                <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-box-open"></i> White Box Testing</div>
+                <p class="card-text">Internal logic is <strong>visible</strong>. The tester examines code paths, loops, and conditions. Focused on structural integrity and coverage.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Release Phases</h3>
+        <div class="grid-2">
+            <div class="card" style="border-top: 4px solid var(--purple); text-align: center;">
+                <i class="fa-solid fa-flask" style="font-size: 32px; color: var(--purple); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Alpha Testing</div>
+                <p class="card-text">Conducted by the <strong>internal development team</strong> at the developer's site before release to outside users.</p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--emerald); text-align: center;">
+                <i class="fa-solid fa-users" style="font-size: 32px; color: var(--emerald); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Beta Testing</div>
+                <p class="card-text">Conducted by <strong>real users</strong> in their own environment. Helps find unexpected bugs in real-world conditions.</p>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <div class="card-title" style="color: var(--rose); margin-bottom: 10px;"><i class="fa-solid fa-triangle-exclamation"></i> Case Study: The Therac-25</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">A catastrophic failure of software testing in a 1980s radiation therapy machine. A <strong>"race condition"</strong> in the code caused patients to receive <strong>100x the intended radiation</strong>. The software was never tested in integration with the hardware safely. Outcome: Fatalities and severe injuries due to poor error handling and lack of physical safety overrides.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3: User Design -->
+    <section id="design" class="section theme-purple">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-pen-nib"></i></div>
+            <div>
+                <h2 class="section-title">User Design</h2>
+                <p class="section-subtitle">Mastering the interface between humans and machines</p>
+            </div>
+        </div>
+
+        <div class="grid-3">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-universal-access" style="color: var(--purple);"></i> Accessibility</div>
+                <p class="card-text">Ensuring everyone can use the software, regardless of ability or disability.</p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-gauge-high" style="color: var(--purple);"></i> Efficiency</div>
+                <p class="card-text">Reducing the time taken to complete tasks through intuitive design.</p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-heart" style="color: var(--purple);"></i> User Satisfaction</div>
+                <p class="card-text">Creating a positive emotional response and enjoyable experience.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The User Interface (UI)</h3>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">The visual part of a system that a person interacts with. Includes buttons, icons, and menus.</p>
+        <div class="grid-2">
+            <div class="card" style="border-left-color: var(--blue) !important;">
+                <div class="card-title" style="color: var(--blue);"><i class="fa-solid fa-desktop"></i> GUI</div>
+                <p class="card-text"><strong>Graphical User Interface</strong> — Windows, icons, mouse pointers. Visual and intuitive for general users.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--cyan) !important;">
+                <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-terminal"></i> CLI</div>
+                <p class="card-text"><strong>Command Line Interface</strong> — Text-based, fast for experts. Precise but has a steep learning curve.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald) !important;">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-microphone"></i> VUI</div>
+                <p class="card-text"><strong>Voice User Interface</strong> — Alexa, Siri, Voice search. Hands-free interaction.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--amber) !important;">
+                <div class="card-title" style="color: var(--amber);"><i class="fa-solid fa-hand-pointer"></i> NUI</div>
+                <p class="card-text"><strong>Natural User Interface</strong> — Touch, gestures, eye-tracking. Most intuitive physical interaction.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(139,92,246,0.1), light-dark(rgba(226,232,240,0.6), rgba(15,23,42,0.6))); border-left-color: var(--purple) !important;">
+            <div class="card-title"><i class="fa-solid fa-brain" style="color: var(--purple);"></i> UI vs. UX</div>
+            <p class="card-text" style="margin-bottom: 15px;"><strong>UI</strong> is the bridge — <em>Is it pretty?</em> (Layout, color, fonts). <strong>UX</strong> is the feeling — <em>Is it helpful?</em> (Logic, flow, ease of use).</p>
+            <p class="card-text"><i class="fa-solid fa-music" style="color: var(--purple);"></i> <strong>Real Example:</strong> Spotify's "Discover Weekly" is a UX win — it creates value by understanding user behavior, not just looking good.</p>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">7 Principles of Universal Design</h3>
+        <div class="grid-2">
+            <div class="card"><div class="card-title"><span class="mono" style="background: rgba(6,182,212,0.15); color: var(--cyan);">1</span> Equitable Use</div><p class="card-text">Useful to people with diverse abilities. <em>Ex: Automatic doors for everyone.</em></p></div>
+            <div class="card"><div class="card-title"><span class="mono" style="background: rgba(59,130,246,0.15); color: var(--blue);">2</span> Flexibility in Use</div><p class="card-text">Accommodates wide range of preferences. <em>Ex: Left and right-handed scissors.</em></p></div>
+            <div class="card"><div class="card-title"><span class="mono" style="background: rgba(139,92,246,0.15); color: var(--purple);">3</span> Simple & Intuitive</div><p class="card-text">Easy to understand regardless of experience. <em>Ex: Apple iPhone interface.</em></p></div>
+            <div class="card"><div class="card-title"><span class="mono" style="background: rgba(236,72,153,0.15); color: var(--pink);">4</span> Perceptible Info</div><p class="card-text">Communicates info effectively via multi-senses. <em>Ex: Tactile elevator buttons.</em></p></div>
+            <div class="card"><div class="card-title"><span class="mono" style="background: rgba(245,158,11,0.15); color: var(--amber);">5</span> Tolerance for Error</div><p class="card-text">Minimizes hazards and adverse consequences. <em>Ex: "Undo" button or file recovery.</em></p></div>
+            <div class="card"><div class="card-title"><span class="mono" style="background: rgba(16,185,129,0.15); color: var(--emerald);">6</span> Low Physical Effort</div><p class="card-text">Used efficiently and comfortably. <em>Ex: Lever door handles.</em></p></div>
+            <div class="card" style="grid-column: 1 / -1;"><div class="card-title"><span class="mono" style="background: rgba(244,63,94,0.15); color: var(--rose);">7</span> Size and Space</div><p class="card-text">Appropriate space provided for reach/manipulation. <em>Ex: Wide subway turnstiles for wheelchairs.</em></p></div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Designing for Accessibility</h3>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-eye" style="color: var(--purple);"></i> WCAG Standards</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Alt-Text:</strong> For screen readers</li>
+                    <li><strong>High Contrast:</strong> For low-vision users</li>
+                    <li><strong>Keyboard Nav:</strong> For motor impairments</li>
+                    <li><strong>Subtitles:</strong> For hearing impairments</li>
+                </ul>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-braille" style="color: var(--purple);"></i> Adaptive Technology</div>
+                <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Screen Readers:</strong> Read text aloud (e.g., JAWS)</li>
+                    <li><strong>Braille Displays:</strong> Tactile reading device</li>
+                    <li><strong>Eye Trackers:</strong> Control mouse with eyes (e.g., Tobii)</li>
+                    <li><strong>Sip-and-Puff:</strong> Control using air pressure</li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The Design Cycle</h3>
+        <div class="phase-row">
+            <div class="phase-circle" style="border-color: var(--rose); color: var(--rose); width: 120px; height: 120px;">
+                <i class="fa-solid fa-heart" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Empathize</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--amber); color: var(--amber); width: 120px; height: 120px;">
+                <i class="fa-solid fa-bullseye" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Define</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--yellow); color: var(--yellow); width: 120px; height: 120px;">
+                <i class="fa-solid fa-lightbulb" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Ideate</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--emerald); color: var(--emerald); width: 120px; height: 120px;">
+                <i class="fa-solid fa-hammer" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Prototype</span>
+            </div>
+            <i class="fa-solid fa-arrow-right phase-arrow"></i>
+            <div class="phase-circle" style="border-color: var(--cyan); color: var(--cyan); width: 120px; height: 120px;">
+                <i class="fa-solid fa-vial" style="font-size: 20px; margin-bottom: 4px;"></i>
+                <span>Test</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: Modelling & Simulation -->
+    <section id="modelling" class="section theme-blue">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-cube"></i></div>
+            <div>
+                <h2 class="section-title">Modelling & Simulation</h2>
+                <p class="section-subtitle">Understanding abstraction and execution over time</p>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-cube" style="color: var(--blue);"></i> What is a Model?</div>
+                <p class="card-text">A <strong>simplified, abstract representation of reality</strong>. It focuses only on variables relevant to the problem, removes unnecessary complexity, and uses mathematical rules or logic. Acts as the "blueprint" of a system.</p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-play" style="color: var(--blue);"></i> What is a Simulation?</div>
+                <p class="card-text">The <strong>act of running the model</strong>. It shows how the system changes over time under specific conditions. Dynamic, not static. Predicts future outcomes and allows for "What If" testing.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px; text-align: center;">
+            <h4 style="font-family: 'Space Grotesk'; margin-bottom: 15px; color: var(--text-main);"><i class="fa-solid fa-scale-balanced" style="color: var(--blue);"></i> The Difference</h4>
+            <p style="color: var(--text-muted); font-size: 1rem;"><strong style="color: var(--blue);">Modelling</strong> is the design phase (the set of rules, equations, and logic). <strong style="color: var(--emerald);">Simulation</strong> is the action phase (the software processing those rules). Think of it as the <strong>Blueprint</strong> versus the <strong>Construction</strong>.</p>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Why Do We Need Them?</h3>
+        <div class="grid-3">
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-shield-halved" style="font-size: 32px; color: var(--rose); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Safety</div>
+                <p class="card-text">Test dangerous scenarios like flight training or fire escapes without risking human lives.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-gauge-high" style="font-size: 32px; color: var(--amber); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Efficiency</div>
+                <p class="card-text">Modelling a bridge or product digitally is far cheaper than building physical prototypes that might fail.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-eye" style="font-size: 32px; color: var(--purple); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Insight</div>
+                <p class="card-text">Observe systems too fast (explosions) or too slow (climate change) to watch in real time.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Agent-Based Modelling (ABM)</h3>
+        <div class="card" style="margin-bottom: 20px;">
+            <div class="card-title"><i class="fa-solid fa-users" style="color: var(--blue);"></i> Bottom-Up Approach</div>
+            <p class="card-text">Instead of global equations, we model individual entities called <strong>"Agents"</strong> and watch how their small interactions create massive system-wide behaviour. There is no "master controller" — each agent makes its own decisions based on local surroundings and fixed rules.</p>
+        </div>
+        <div class="grid-3">
+            <div class="card" style="border-left-color: var(--cyan) !important;">
+                <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-user-gear"></i> Autonomy</div>
+                <p class="card-text">Agents act independently without central control.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--purple) !important;">
+                <div class="card-title" style="color: var(--purple);"><i class="fa-solid fa-map-pin"></i> Local Rules</div>
+                <p class="card-text">They only react to what is near them in their immediate environment.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald) !important;">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-share-nodes"></i> Interaction</div>
+                <p class="card-text">They bump into, follow, or influence other agents around them.</p>
+            </div>
+        </div>
+
+        <div class="info-box" style="margin-top: 20px;">
+            <div class="card-title" style="color: var(--cyan); margin-bottom: 10px;"><i class="fa-solid fa-dove"></i> Emergent Behaviour</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">In bird flocking, each bird follows three simple rules: <strong>separation, alignment, and cohesion</strong>. No leader is assigned, yet complex, beautiful flocking patterns emerge from these local interactions.</p>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Real-World Uses</h3>
+        <div class="grid-3">
+            <div class="card" style="border-top: 4px solid var(--rose);">
+                <div class="card-title" style="justify-content: center;"><i class="fa-solid fa-virus" style="color: var(--rose);"></i> Disease</div>
+                <p class="card-text" style="text-align: center;">Simulating how viruses spread to test lockdown or vaccine impact.</p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--amber);">
+                <div class="card-title" style="justify-content: center;"><i class="fa-solid fa-car" style="color: var(--amber);"></i> Traffic</div>
+                <p class="card-text" style="text-align: center;">Optimising city lights to prevent "phantom traffic jams".</p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--emerald);">
+                <div class="card-title" style="justify-content: center;"><i class="fa-solid fa-leaf" style="color: var(--emerald);"></i> Environment</div>
+                <p class="card-text" style="text-align: center;">Predicting global warming effects on ice caps and sea levels.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: Electronics -->
+    <section id="electronics" class="section theme-amber">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-bolt"></i></div>
+            <div>
+                <h2 class="section-title">Electronics for CS</h2>
+                <p class="section-subtitle">Voltage, current, components, and digital signals</p>
+            </div>
+        </div>
+
+        <h3 style="margin-bottom: 20px; font-family: 'Space Grotesk'; color: var(--text-main);">The Fundamentals</h3>
+        <div class="grid-3">
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-gauge-high" style="font-size: 32px; color: var(--rose); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Voltage (V)</div>
+                <p class="card-text">The electrical <strong>"push"</strong> that makes electrons move. Think of it as water pressure at the source. Measured in <span class="mono">Volts (V)</span>.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-water" style="font-size: 32px; color: var(--blue); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Current (I)</div>
+                <p class="card-text">The actual <strong>rate of flow</strong> of electrical charge past a point. Think volume of water per second. Measured in <span class="mono">Amps (A)</span>.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-hand" style="font-size: 32px; color: var(--amber); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Resistance (R)</div>
+                <p class="card-text">The <strong>"hose size"</strong> restricting flow. Limits current to protect sensitive components. Measured in <span class="mono">Ohms (Ω)</span>.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px; text-align: center;">
+            <div class="card-title" style="justify-content: center; color: var(--amber);"><i class="fa-solid fa-calculator"></i> Ohm's Law</div>
+            <p style="font-family: 'Space Mono', monospace; font-size: 1.5rem; color: var(--text-main); margin: 15px 0;">V = I × R</p>
+            <p class="card-text">Voltage equals Current multiplied by Resistance. The fundamental equation of electronics.</p>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Essential Components</h3>
+        <div class="grid-2">
+            <div class="card" style="border-left-color: var(--purple) !important;">
+                <div class="card-title" style="color: var(--purple);"><i class="fa-solid fa-microchip"></i> Semiconductors</div>
+                <p class="card-text">Materials like <strong>Silicon</strong> that can behave as an insulator or conductor depending on conditions. The essential "building block" of all modern computing.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--rose) !important;">
+                <div class="card-title" style="color: var(--rose);"><i class="fa-solid fa-minus"></i> Resistors</div>
+                <p class="card-text">Limit the amount of current that can flow. Without them, sensitive parts (like your Micro:bit) would burn out from too much power.</p>
+            </div>
+            <div class="card" style="border-left-color: var(--cyan) !important;">
+                <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-toggle-on"></i> Transistors</div>
+                <p class="card-text">Microscopic <strong>electronic switches</strong> with no moving parts. Either ON or OFF. A modern CPU contains billions of these, enabling binary data processing (0s and 1s).</p>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald) !important;">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-server"></i> Integrated Circuits (ICs)</div>
+                <p class="card-text">A single piece of semiconductor with millions of transistors, resistors, and capacitors built onto it. This is why smartphones are thousands of times more powerful than old room-sized computers.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Analogue vs. Digital Signals</h3>
+        <div class="comparison-grid">
+            <div class="comp-card">
+                <h4 style="color: var(--text-muted); margin-bottom: 15px;"><i class="fa-solid fa-wave-square"></i> Analogue</h4>
+                <div class="comp-stat" style="color: var(--blue);">Continuous</div>
+                <div class="comp-label">Signal Type</div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">Can represent any value within a range. Examples: Human voice, music from vinyl, temperature sensors. <strong style="color: var(--rose);">Highly prone to noise.</strong></p>
+            </div>
+            <div class="comp-card">
+                <h4 style="color: var(--text-muted); margin-bottom: 15px;"><i class="fa-solid fa-stairs"></i> Digital</h4>
+                <div class="comp-stat" style="color: var(--emerald);">Discrete</div>
+                <div class="comp-label">Signal Type</div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 15px;">Uses discrete values — either "On" (1) or "Off" (0). The native language of CPUs. <strong style="color: var(--emerald);">Very resistant to noise.</strong></p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h4 style="font-family: 'Space Grotesk'; margin-bottom: 15px;"><i class="fa-solid fa-microscope" style="color: var(--amber);"></i> Real-World Examples</h4>
+            <div class="grid-3">
+                <div style="text-align: center; padding: 15px;">
+                    <i class="fa-solid fa-cube" style="font-size: 28px; color: var(--amber); margin-bottom: 8px;"></i>
+                    <h5 style="margin-bottom: 5px;">Micro:bit</h5>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Buttons are <strong>Digital</strong> (Pressed/Not). The Light Sensor is <strong>Analogue</strong> (detects brightness levels).</p>
+                </div>
+                <div style="text-align: center; padding: 15px;">
+                    <i class="fa-solid fa-gamepad" style="font-size: 28px; color: var(--purple); margin-bottom: 8px;"></i>
+                    <h5 style="margin-bottom: 5px;">Game Controllers</h5>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">D-Pad buttons are <strong>Digital</strong>. Analog sticks measure degrees of movement — <strong>Analogue input converted to Digital</strong> for processing.</p>
+                </div>
+                <div style="text-align: center; padding: 15px;">
+                    <i class="fa-solid fa-motherboard" style="font-size: 28px; color: var(--cyan); margin-bottom: 8px;"></i>
+                    <h5 style="margin-bottom: 5px;">Internal Processing</h5>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">Even though we input analogue movement, the console uses <strong>ICs</strong> to convert it to digital signals for the CPU.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: Embedded Systems -->
+    <section id="embedded" class="section theme-orange">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-solid fa-microchip"></i></div>
+            <div>
+                <h2 class="section-title">Embedded Systems</h2>
+                <p class="section-subtitle">Specialized computing built for dedicated functions</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 30px;">
+            <div class="card-title"><i class="fa-solid fa-question-circle" style="color: var(--orange);"></i> What is an Embedded System?</div>
+            <p class="card-text">A <strong>specialized computer system</strong> designed to perform a dedicated function. Unlike a general-purpose PC, it is "embedded" as part of a larger mechanical or electrical system. They contain both hardware (microcontrollers) and software (firmware), continuously reading inputs from sensors and controlling outputs.</p>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Why Are They Needed?</h3>
+        <div class="grid-3">
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-battery-full" style="font-size: 32px; color: var(--emerald); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Efficiency</div>
+                <p class="card-text">Consume very little power. Hardware is optimized perfectly for one specific task without wasted resources.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-shield-halved" style="font-size: 32px; color: var(--blue); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Reliability</div>
+                <p class="card-text">Highly stable. A washing machine's embedded system rarely crashes because the software is simple, tested, and isolated.</p>
+            </div>
+            <div class="card" style="text-align: center;">
+                <i class="fa-solid fa-compress" style="font-size: 32px; color: var(--purple); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Form Factor</div>
+                <p class="card-text">Incredibly small and cheap to produce at scale, allowing "smart" technology in almost any physical object.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Core Characteristics</h3>
+        <div class="grid-3">
+            <div class="card" style="border-left-color: var(--cyan) !important;">
+                <div class="card-title" style="color: var(--cyan);"><i class="fa-solid fa-bullseye"></i> Single-Functioned</div>
+                <p class="card-text">Designed to do one specific task repeatedly (e.g., a digital thermometer only reads and displays temperature).</p>
+            </div>
+            <div class="card" style="border-left-color: var(--amber) !important;">
+                <div class="card-title" style="color: var(--amber);"><i class="fa-solid fa-stopwatch"></i> Real-Time Operation</div>
+                <p class="card-text">Many are "reactive" — they must respond to external events within strict time constraints (e.g., car airbags).</p>
+            </div>
+            <div class="card" style="border-left-color: var(--rose) !important;">
+                <div class="card-title" style="color: var(--rose);"><i class="fa-solid fa-memory"></i> Tightly Constrained</div>
+                <p class="card-text">Operate with limited memory (RAM/ROM) and processing power to keep manufacturing costs and energy consumption low.</p>
+            </div>
+        </div>
+
+        <div class="grid-2" style="margin-top: 20px;">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-microchip" style="color: var(--orange);"></i> The Hardware</div>
+                <p class="card-text">The brain is usually a <strong>Microcontroller (MCU)</strong>. Unlike a standard CPU, an MCU packages the processor, memory (RAM/ROM), and programmable input/output peripherals all onto a single integrated circuit chip.</p>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-code" style="color: var(--orange);"></i> The Software</div>
+                <p class="card-text">The code is called <strong>firmware</strong>. It is written to non-volatile memory (like Flash or ROM) and is rarely updated by the end-user during the lifetime of the device.</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Real-World Applications</h3>
+        <div class="grid-3">
+            <div class="card" style="border-top: 4px solid var(--cyan); text-align: center;">
+                <i class="fa-solid fa-clock" style="font-size: 28px; color: var(--cyan); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Smartwatches</div>
+                <p class="card-text">Dedicated health monitoring and notification systems.</p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--emerald); text-align: center;">
+                <i class="fa-solid fa-temperature-half" style="font-size: 28px; color: var(--emerald); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Smart Thermostats</div>
+                <p class="card-text">Climate control with sensor feedback loops.</p>
+            </div>
+            <div class="card" style="border-top: 4px solid var(--amber); text-align: center;">
+                <i class="fa-solid fa-utensils" style="font-size: 28px; color: var(--amber); margin-bottom: 10px;"></i>
+                <div class="card-title" style="justify-content: center;">Microwaves</div>
+                <p class="card-text">Precise timing and power control for cooking.</p>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <div class="card-title"><i class="fa-solid fa-car" style="color: var(--orange);"></i> Automotive: The Modern Car</div>
+            <p class="card-text">A modern vehicle contains dozens of embedded systems known as <strong>Electronic Control Units (ECUs)</strong>. These control everything from engine fuel injection to anti-lock braking systems (ABS) and climate control. They must meet strict safety standards, as failures can be catastrophic.</p>
+        </div>
+
+        <div class="success-box">
+            <div class="card-title" style="color: var(--emerald); margin-bottom: 10px;"><i class="fa-solid fa-wifi"></i> The Internet of Things (IoT)</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Historically, embedded systems operated in isolation. Today, <strong>IoT</strong> involves adding network connectivity to these devices, allowing them to send and receive data globally. This enables "Smart Cities" (intelligent traffic lights), precision agriculture (soil sensors), and remote healthcare monitoring.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 7: Python Functions -->
+    <section id="python" class="section theme-yellow">
+        <div class="section-header">
+            <div class="section-icon"><i class="fa-brands fa-python"></i></div>
+            <div>
+                <h2 class="section-title">Python Functions</h2>
+                <p class="section-subtitle">Mastering decomposition, reusability, and abstraction</p>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-cubes" style="color: var(--yellow);"></i> The Power of Reusability</div>
+                <div class="list-item"><i class="fa-solid fa-puzzle-piece" style="color: var(--yellow);"></i><div><strong>Decomposition</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Breaking a complex problem into smaller, bite-sized chunks.</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-ban" style="color: var(--yellow);"></i><div><strong>DRY Principle</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">"Don't Repeat Yourself." Write code once and call it whenever needed.</span></div></div>
+                <div class="list-item"><i class="fa-solid fa-eye-slash" style="color: var(--yellow);"></i><div><strong>Abstraction</strong><br><span style="color: var(--text-muted); font-size: 0.85rem;">Hiding complex logic behind a simple, descriptive name.</span></div></div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-code" style="color: var(--yellow);"></i> Defining a Function</div>
+                <p class="card-text" style="margin-bottom: 15px;">Use the <span class="mono">def</span> keyword followed by the function name and parentheses.</p>
+                <div class="code-block">
+<span class="comment"># Define a function</span>
+<span class="keyword">def</span> <span class="function">greet_user</span>():
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment"># Code block inside</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(<span class="string">"Hello, LCCS!"</span>)
+                </div>
+                <p class="card-text" style="font-size: 0.85rem;"><i class="fa-solid fa-triangle-exclamation" style="color: var(--amber);"></i> <strong>Key Rule:</strong> Everything inside the function must be indented (4 spaces).</p>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Parameters vs. Arguments</h3>
+        <div class="grid-2">
+            <div class="card" style="border-left-color: var(--blue) !important;">
+                <div class="card-title" style="color: var(--blue);"><i class="fa-solid fa-input-numeric"></i> Parameters</div>
+                <p class="card-text">The <strong>placeholders</strong> defined in the function header. They act as variables inside the function.</p>
+                <div class="code-block">
+<span class="keyword">def</span> <span class="function">greet</span>(name):&nbsp;&nbsp;<span class="comment"># 'name' is a parameter</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(<span class="string">"Hello,"</span>, name)
+                </div>
+            </div>
+            <div class="card" style="border-left-color: var(--emerald) !important;">
+                <div class="card-title" style="color: var(--emerald);"><i class="fa-solid fa-arrow-right-to-bracket"></i> Arguments</div>
+                <p class="card-text">The <strong>actual data</strong> you pass to the function when you call it from the main program.</p>
+                <div class="code-block">
+<span class="function">greet</span>(<span class="string">"Alex"</span>)&nbsp;&nbsp;<span class="comment"># "Alex" is the argument</span>
+<span class="output">Hello, Alex</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <div class="card-title"><i class="fa-solid fa-list-ol" style="color: var(--yellow);"></i> Multiple Arguments</div>
+            <p class="card-text" style="margin-bottom: 15px;">Functions can accept multiple inputs. <strong>Order matters</strong> — arguments are matched to parameters in the order they are passed.</p>
+            <div class="code-block">
+<span class="keyword">def</span> <span class="function">calc_area</span>(length, width):
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> length * width
+
+<span class="comment"># Call with two arguments</span>
+<span class="function">print</span>(<span class="function">calc_area</span>(<span class="number">5</span>, <span class="number">10</span>))&nbsp;&nbsp;<span class="comment"># Output: 50</span>
+            </div>
+        </div>
+
+        <h3 style="margin: 40px 0 20px; font-family: 'Space Grotesk'; color: var(--text-main);">Return vs. No Return</h3>
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-rotate-left" style="color: var(--emerald);"></i> The return Statement</div>
+                <p class="card-text">Sends a value <strong>back</strong> to where the function was called. Allows you to store the result in a variable for later use.</p>
+                <div class="code-block">
+<span class="keyword">def</span> <span class="function">add</span>(a, b):
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> a + b
+
+result = <span class="function">add</span>(<span class="number">3</span>, <span class="number">4</span>)
+<span class="function">print</span>(result)&nbsp;&nbsp;<span class="comment"># Output: 7</span>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><i class="fa-solid fa-xmark" style="color: var(--rose);"></i> Procedures (No Return)</div>
+                <p class="card-text">Functions without a return statement often just print to the screen. In Python, if you don't specify a return, the function implicitly returns <span class="mono">None</span>.</p>
+                <div class="code-block">
+<span class="keyword">def</span> <span class="function">say_hello</span>():
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="print">print</span>(<span class="string">"Hello!"</span>)
+
+<span class="comment"># Returns None implicitly</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 20px;">
+            <h4 style="font-family: 'Space Grotesk'; margin-bottom: 15px;"><i class="fa-solid fa-table-list" style="color: var(--yellow);"></i> print() vs. return</h4>
+            <div style="overflow-x: auto;">
+                <table class="reg-table">
+                    <tr>
+                        <th>Feature</th>
+                        <th>print()</th>
+                        <th>return</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Purpose</strong></td>
+                        <td>Shows info to the human user</td>
+                        <td>Passes info back to the computer</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Storage</strong></td>
+                        <td>Cannot be saved to a variable</td>
+                        <td>Result can be saved in a variable</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Exit Behavior</strong></td>
+                        <td>Function continues execution</td>
+                        <td>Exits the function immediately</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <div class="card-title" style="color: var(--cyan); margin-bottom: 10px;"><i class="fa-solid fa-graduation-cap"></i> Exam Tip</div>
+            <p style="color: var(--text-muted); font-size: 0.95rem;">Section C of the LCCS exam frequently asks you to complete function definitions or trace return values. Understanding <strong>scoping</strong> and <strong>return logic</strong> is the key to a H1 grade.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p style="font-size: 1.1rem; margin-bottom: 8px;">🎓 Leaving Certificate Computer Science</p>
+        <p style="font-size: 0.85rem;">Foundations of Software Engineering · NextGenCoding</p>
+    </footer>
+
+    <!-- Theme Toggle Script -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        html.style.colorScheme = savedTheme;
+        updateIcon(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.style.colorScheme || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.style.colorScheme = newTheme;
+            localStorage.setItem('theme', newTheme);
+            updateIcon(newTheme);
+        });
+
+        function updateIcon(theme) {
+            const label = document.getElementById('themeLabel');
+            if (theme === 'dark') {
+                themeIcon.className = 'fas fa-moon';
+                if (label) label.textContent = 'Dark';
+            } else {
+                themeIcon.className = 'fas fa-sun';
+                if (label) label.textContent = 'Light';
+            }
+        }
+
+        document.querySelectorAll('.nav-btn').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    history.pushState(null, null, `#${targetId}`);
+                }
+            });
+        });
+
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                setTimeout(() => {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        }
+    </script>
+
+</body>
+</html>
